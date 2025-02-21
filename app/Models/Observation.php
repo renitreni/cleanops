@@ -11,11 +11,26 @@ class Observation extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id', 
-        'description', 
-        'photo', 
+        'id',
+        'description',
+        'photo',
         'location', // (lat, lng) 
         'reported_by', // (user_id) 
         'status', // (pending, in_progress, resolved) 
     ];
+
+    protected $casts = [
+        'location' => 'array',
+    ];
+
+    // Relationships
+    public function reporter()
+    {
+        return $this->belongsTo(User::class, 'reported_by');
+    }
+
+    public function task()
+    {
+        return $this->hasOne(Task::class);
+    }
 }

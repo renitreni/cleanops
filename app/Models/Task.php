@@ -19,4 +19,19 @@ class Task extends Model
         'completion_photo', 
         'completed_at', 
     ];
+    
+    public function observation()
+    {
+        return $this->belongsTo(Observation::class);
+    }
+
+    public function contractor()
+    {
+        return $this->belongsTo(Contractor::class);
+    }
+
+    public function assignedBy()
+    {
+        return $this->belongsTo(User::class, 'assigned_by');
+    }
 }

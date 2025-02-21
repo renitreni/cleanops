@@ -18,4 +18,9 @@ class Contractor extends Model
         'email', 
         'status', // (active, inactive) 
     ];
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
 }
