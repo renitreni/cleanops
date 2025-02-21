@@ -9,4 +9,12 @@ class Kpi extends Model
 {
     /** @use HasFactory<\Database\Factories\KpiFactory> */
     use HasFactory;
+
+    protected $fillable = [
+        'id', 
+        'contractor_id', 
+        'metric_name', 
+        'value', 
+        'date', 
+    ];
 }

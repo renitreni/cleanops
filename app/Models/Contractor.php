@@ -8,5 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Contractor extends Model
 {
     /** @use HasFactory<\Database\Factories\ContractorFactory> */
-    use HasFactory;
+    use HasFactory;    
+    
+    protected $fillable = [
+        'id', 
+        'name', 
+        'contact_person', 
+        'phone', 
+        'email', 
+        'status', // (active, inactive) 
+    ];
 }

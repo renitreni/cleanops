@@ -9,4 +9,11 @@ class Notification extends Model
 {
     /** @use HasFactory<\Database\Factories\NotificationFactory> */
     use HasFactory;
+
+    protected $fillable = [
+        'id',
+        'user_id',
+        'message',
+        'read_at',
+    ];
 }
