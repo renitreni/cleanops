@@ -38,5 +38,7 @@ class DatabaseSeeder extends Seeder
                 'assigned_by' => User::where('role', 'admin')->inRandomOrder()->first()->id ?? User::first()->id,
             ]);
         });
+
+        Observation::query()->update(['photo' => 'https://dummyimage.com/640x4:3/']);
     }
 }
