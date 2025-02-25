@@ -3,5 +3,5 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return redirect()->to('https://sys.aljouf-baladiya.site/');
+    return redirect()->to('https://aljouf-baladiya.site/');
 });
