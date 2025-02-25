@@ -37,7 +37,7 @@ class ComplaintProcessMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            markdown: 'mail.complaint.process',
         );
     }
 

@@ -54,7 +54,18 @@ class ObservationResource extends Resource
                         'pending' => 'Pending',
                         'resolved' => 'Resolved',
                     ]),
-                TextColumn::make('location'),
+                TextColumn::make('location')
+                    ->label('Location')
+                    ->formatStateUsing(function ($state) {
+                        $jsonString = $state;
+
+                        // Decode JSON to an associative array
+                        $data = json_decode($jsonString, true);
+                        $googleMapsUrl = "https://www.google.com/maps?q={$data['lat']},{$data['lng']}";
+
+                        return "<a href='{$googleMapsUrl}' target='_blank'>{$state}</a>";
+                    })
+                    ->html(),
                 ImageColumn::make('photo'),
                 TextColumn::make('reporter.name'),
             ])
