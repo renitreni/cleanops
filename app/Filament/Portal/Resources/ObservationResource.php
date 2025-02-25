@@ -2,6 +2,7 @@
 
 namespace App\Filament\Portal\Resources;
 
+use App\Actions\FetchComplains;
 use App\Filament\Portal\Resources\ObservationResource\Pages;
 use App\Filament\Portal\Resources\ObservationResource\Pages\ViewObservation;
 use App\Filament\Portal\Resources\ObservationResource\RelationManagers;
@@ -15,6 +16,7 @@ use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\SelectColumn;
@@ -33,6 +35,13 @@ class ObservationResource extends Resource
     {
         return $form
             ->schema([]);
+    }
+
+    protected function getActions(): array
+    {
+        return [
+            Action::make(),
+        ];
     }
 
     public static function table(Table $table): Table
@@ -56,6 +65,11 @@ class ObservationResource extends Resource
                 //  Tables\Actions\EditAction::make(),
                 ViewAction::make()
             ])
+            ->headerActions([
+                Action::make('sync')
+                    ->label('Sync Complain')
+                    ->action(fn() => FetchComplains::handle())
+            ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
@@ -68,6 +82,11 @@ class ObservationResource extends Resource
         return [
             //
         ];
+    }
+
+    public static function canCreate(): bool
+    {
+        return false;
     }
 
     public static function getPages(): array
