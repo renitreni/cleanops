@@ -71,7 +71,6 @@ class ObservationResource extends Resource
                     })
                     ->html(),
                 ImageColumn::make('photo'),
-                TextColumn::make('reporter.name')->sortable(),
             ])
             ->defaultSort('id', 'desc')
             ->filters([
@@ -138,7 +137,12 @@ class ObservationResource extends Resource
                                 'sm' => 1,
                                 'md' => 4,
                             ]),
-                        TextEntry::make('reporter.name')
+                        TextEntry::make('name')
+                            ->columnSpan([
+                                'sm' => 1,
+                                'md' => 4,
+                            ]),
+                        TextEntry::make('contact')
                             ->columnSpan([
                                 'sm' => 1,
                                 'md' => 4,
