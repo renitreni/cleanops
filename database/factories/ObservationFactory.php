@@ -27,7 +27,7 @@ class ObservationFactory extends Factory
                 'lng' => $this->faker->longitude()
             ]),
             'reported_by' => User::factory(),
-            'status' => $this->faker->randomElement(['pending', 'in_progress', 'resolved']),
+            'status' => 'pending', //'pending', 'in_progress', 'resolved'
         ];
     }
 }
