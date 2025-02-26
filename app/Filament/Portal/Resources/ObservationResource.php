@@ -6,6 +6,8 @@ use App\Actions\FetchComplains;
 use App\Filament\Portal\Resources\ObservationResource\Pages;
 use App\Filament\Portal\Resources\ObservationResource\Pages\ViewObservation;
 use App\Filament\Portal\Resources\ObservationResource\RelationManagers;
+use App\Mail\ComplaintDueProcessMail;
+use App\Mail\ComplaintProcessMail;
 use App\Models\Observation;
 use Filament\Forms;
 use Filament\Forms\Components\TextInput;
@@ -24,6 +26,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Mail;
 
 class ObservationResource extends Resource
 {
@@ -81,12 +84,22 @@ class ObservationResource extends Resource
                 ViewAction::make()
             ])
             ->headerActions([
+                Action::make('sync2')
+                    ->label('Sample Process Received Email')
+                    ->action(function () {
+                        Mail::to('renier.trenuela@gmail.com')->bcc(['ferdzsabado@gmail.com'])->send(new ComplaintProcessMail());
+                    }),
+                Action::make('sync3')
+                    ->label('Sample Due Process Received Email')
+                    ->action(function () {
+                        Mail::to('renier.trenuela@gmail.com')->bcc(['ferdzsabado@gmail.com'])->send(new ComplaintDueProcessMail());
+                    }),
                 Action::make('sync')
                     ->label('Sync Complain')
                     ->action(function () {
                         FetchComplains::handle();
                         redirect()->route('filament.portal.resources.observations.index');
-                    })
+                    }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
