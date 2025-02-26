@@ -83,8 +83,10 @@ class ObservationResource extends Resource
                         $data = json_decode($jsonString, true);
                         $images = '';
                         foreach ($data ?? [] as $item) {
-                            $jsondecode = json_decode($item, true)[0];
-                            $images .= "<img src='{$jsondecode}' target='_blank'/>";
+                            if ($item) {
+                                $jsondecode = json_decode($item, true)[0];
+                                $images .= "<img src='{$jsondecode}' target='_blank'/>";
+                            }
                         }
 
                         return $images;
