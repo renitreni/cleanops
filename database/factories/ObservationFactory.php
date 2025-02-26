@@ -18,6 +18,8 @@ class ObservationFactory extends Factory
     public function definition(): array
     {
         return [
+            'name' => $this->faker->name(),
+            'contact_no' => $this->faker->phoneNumber(),
             'description' => $this->faker->sentence(),
             'photo' => $this->faker->imageUrl(),
             'location' => json_encode([

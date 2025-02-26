@@ -13,6 +13,8 @@ class Observation extends Model
     protected $fillable = [
         'id',
         'description',
+        'name',
+        'contact_no',
         'photo',
         'location', // (lat, lng) 
         'reported_by', // (user_id) 

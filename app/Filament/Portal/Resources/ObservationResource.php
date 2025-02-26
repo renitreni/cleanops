@@ -29,7 +29,7 @@ class ObservationResource extends Resource
 {
     protected static ?string $model = Observation::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-eye';
 
     public static function form(Form $form): Form
     {
@@ -48,13 +48,17 @@ class ObservationResource extends Resource
     {
         return $table
             ->columns([
-                SelectColumn::make('status')->label('Status Update')
+                TextColumn::make('id')->sortable(),
+                TextColumn::make('name')->sortable(),
+                TextColumn::make('contact_no')->sortable(),
+                SelectColumn::make('status')->label('Status Update')->sortable()
                     ->options([
                         'in_progress' => 'In Progress',
                         'pending' => 'Pending',
                         'resolved' => 'Resolved',
                     ]),
                 TextColumn::make('location')
+                    ->sortable()
                     ->label('Location')
                     ->formatStateUsing(function ($state) {
                         $jsonString = $state;
@@ -67,8 +71,9 @@ class ObservationResource extends Resource
                     })
                     ->html(),
                 ImageColumn::make('photo'),
-                TextColumn::make('reporter.name'),
+                TextColumn::make('reporter.name')->sortable(),
             ])
+            ->defaultSort('id', 'desc')
             ->filters([
                 //
             ])
@@ -79,7 +84,10 @@ class ObservationResource extends Resource
             ->headerActions([
                 Action::make('sync')
                     ->label('Sync Complain')
-                    ->action(fn() => FetchComplains::handle())
+                    ->action(function () {
+                        FetchComplains::handle();
+                        redirect()->route('filament.portal.resources.observations.index');
+                    })
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
