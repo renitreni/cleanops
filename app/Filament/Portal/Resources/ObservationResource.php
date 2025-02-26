@@ -142,7 +142,7 @@ class ObservationResource extends Resource
                                 'sm' => 1,
                                 'md' => 4,
                             ]),
-                        TextEntry::make('contact')
+                        TextEntry::make('contact_no')
                             ->columnSpan([
                                 'sm' => 1,
                                 'md' => 4,
