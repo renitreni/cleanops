@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Livewire\CustomDashboardWidget;
 use Filament\Enums\ThemeMode;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -40,6 +41,7 @@ class PortalPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Portal/Widgets'), for: 'App\\Filament\\Portal\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
+                CustomDashboardWidget::class,
             ])
             ->topNavigation()
             ->middleware([
