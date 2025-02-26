@@ -54,12 +54,7 @@ class ObservationResource extends Resource
                 TextColumn::make('id')->sortable(),
                 TextColumn::make('name')->sortable(),
                 TextColumn::make('contact_no')->sortable(),
-                SelectColumn::make('status')->label('Status Update')->sortable()
-                    ->options([
-                        'in_progress' => 'In Progress',
-                        'pending' => 'Pending',
-                        'resolved' => 'Resolved',
-                    ]),
+                TextColumn::make('status'),
                 TextColumn::make('location')
                     ->sortable()
                     ->label('Location')
