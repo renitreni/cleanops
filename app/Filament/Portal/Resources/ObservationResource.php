@@ -73,7 +73,23 @@ class ObservationResource extends Resource
                         return "<a href='{$googleMapsUrl}' target='_blank'>{$state}</a>";
                     })
                     ->html(),
-                ImageColumn::make('photo'),
+                TextColumn::make('photo')
+                    ->sortable()
+                    ->label('Photo')
+                    ->formatStateUsing(function ($state) {
+                        $jsonString = $state;
+
+                        // Decode JSON to an associative array
+                        $data = json_decode($jsonString, true);
+                        $images = '';
+                        foreach ($data ?? [] as $item) {
+                            $jsondecode = json_decode($item, true)[0];
+                            $images .= "<img src='{$jsondecode}' target='_blank'/>";
+                        }
+
+                        return $images;
+                    })
+                    ->html(),
             ])
             ->defaultSort('id', 'desc')
             ->filters([
