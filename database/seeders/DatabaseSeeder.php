@@ -19,26 +19,26 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
+            'role' => 'admin'
         ]);
 
         // Create users
         User::factory()->count(10)->create();
+        if (app()->environment('local')) {
+            // Create contractors
+            Contractor::factory()->count(5)->create();
 
-        // Create contractors
-        Contractor::factory()->count(5)->create();
+            // Create observations
+            Observation::factory()->count(20)->create();
 
-        // Create observations
-        Observation::factory()->count(20)->create();
-
-        // Assign tasks to contractors based on observations
-        Observation::all()->each(function ($observation) {
-            Task::factory()->create([
-                'observation_id' => $observation->id,
-                'contractor_id' => Contractor::inRandomOrder()->first()->id,
-                'assigned_by' => User::where('role', 'admin')->inRandomOrder()->first()->id ?? User::first()->id,
-            ]);
-        });
-
-        Observation::query()->update(['photo' => 'https://dummyimage.com/640x4:3/']);
+            // Assign tasks to contractors based on observations
+            Observation::all()->each(function ($observation) {
+                Task::factory()->create([
+                    'observation_id' => $observation->id,
+                    'contractor_id' => Contractor::inRandomOrder()->first()->id,
+                    'assigned_by' => User::where('role', 'admin')->inRandomOrder()->first()->id ?? User::first()->id,
+                ]);
+            });
+        }
     }
 }

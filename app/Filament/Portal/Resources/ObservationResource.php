@@ -5,12 +5,9 @@ namespace App\Filament\Portal\Resources;
 use App\Actions\FetchComplains;
 use App\Filament\Portal\Resources\ObservationResource\Pages;
 use App\Filament\Portal\Resources\ObservationResource\Pages\ViewObservation;
-use App\Filament\Portal\Resources\ObservationResource\RelationManagers;
 use App\Mail\ComplaintDueProcessMail;
 use App\Mail\ComplaintProcessMail;
 use App\Models\Observation;
-use Filament\Forms;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Grid;
 use Filament\Infolists\Components\ImageEntry;
@@ -20,12 +17,9 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\ViewAction;
-use Filament\Tables\Columns\ImageColumn;
-use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ViewColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Mail;
 
 class ObservationResource extends Resource
@@ -51,23 +45,9 @@ class ObservationResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('id')->sortable(),
                 TextColumn::make('name')->sortable(),
                 TextColumn::make('contact_no')->sortable(),
                 TextColumn::make('status'),
-                TextColumn::make('location')
-                    ->sortable()
-                    ->label('Location')
-                    ->formatStateUsing(function ($state) {
-                        $jsonString = $state;
-
-                        // Decode JSON to an associative array
-                        $data = json_decode($jsonString, true);
-                        $googleMapsUrl = "https://www.google.com/maps?q={$data['lat']},{$data['lng']}";
-
-                        return "<a href='{$googleMapsUrl}' target='_blank'>{$state}</a>";
-                    })
-                    ->html(),
                 TextColumn::make('photo')
                     ->sortable()
                     ->label('Photo')
@@ -76,10 +56,11 @@ class ObservationResource extends Resource
 
                         // Decode JSON to an associative array
                         $data = json_decode($jsonString, true);
+
                         $images = '';
                         foreach ($data ?? [] as $item) {
                             if ($item) {
-                                $jsondecode = json_decode($item, true)[0];
+                                $jsondecode = $item[0];
                                 $images .= "<img src='{$jsondecode}' target='_blank'/>";
                             }
                         }
@@ -93,7 +74,13 @@ class ObservationResource extends Resource
                 //
             ])
             ->actions([
-                //  Tables\Actions\EditAction::make(),
+                Action::make('location')
+                    ->url(function (Observation $record) {
+                        $data = json_decode($record->location, true);
+                        return "https://www.google.com/maps?q={$data['lat']},{$data['lng']}";
+                    })
+                    ->icon('heroicon-o-map-pin')
+                    ->openUrlInNewTab(),
                 ViewAction::make()
             ])
             ->headerActions([

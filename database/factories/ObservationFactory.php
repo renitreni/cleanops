@@ -21,7 +21,7 @@ class ObservationFactory extends Factory
             'name' => $this->faker->name(),
             'contact_no' => $this->faker->phoneNumber(),
             'description' => $this->faker->sentence(),
-            'photo' => $this->faker->imageUrl(),
+            'photo' => json_encode([[$this->faker->imageUrl()], [$this->faker->imageUrl()]]),
             'location' => json_encode([
                 'lat' => $this->faker->latitude(),
                 'lng' => $this->faker->longitude()
