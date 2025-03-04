@@ -16,6 +16,7 @@ return new class extends Migration
             $table->text('serial');
             $table->text('name')->nullable();
             $table->text('description');
+            $table->text('email')->nullable();
             $table->text('contact_no')->nullable();
             $table->longText('photo')->nullable();
             $table->json('location'); // Store lat, lng as JSON

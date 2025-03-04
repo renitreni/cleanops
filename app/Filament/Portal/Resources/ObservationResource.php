@@ -90,22 +90,22 @@ class ObservationResource extends Resource
                 ViewAction::make(),
             ])
             ->headerActions([
-                Action::make('sync2')
-                    ->label('Sample Process Received Email')
-                    ->action(function () {
-                        Mail::to('renier.trenuela@gmail.com')->bcc(['ferdzsabado@gmail.com'])->send(new ComplaintProcessMail);
-                    }),
-                Action::make('sync3')
-                    ->label('Sample Due Process Received Email')
-                    ->action(function () {
-                        Mail::to('renier.trenuela@gmail.com')->bcc(['ferdzsabado@gmail.com'])->send(new ComplaintDueProcessMail);
-                    }),
-                Action::make('sync')
-                    ->label('Sync Complain')
-                    ->action(function () {
-                        FetchComplains::handle();
-                        redirect()->route('filament.portal.resources.observations.index');
-                    }),
+                // Action::make('sync2')
+                //     ->label('Sample Process Received Email')
+                //     ->action(function () {
+                //         Mail::to('renier.trenuela@gmail.com')->bcc(['ferdzsabado@gmail.com'])->send(new ComplaintProcessMail);
+                //     }),
+                // Action::make('sync3')
+                //     ->label('Sample Due Process Received Email')
+                //     ->action(function () {
+                //         Mail::to('renier.trenuela@gmail.com')->bcc(['ferdzsabado@gmail.com'])->send(new ComplaintDueProcessMail);
+                //     }),
+                // Action::make('sync')
+                //     ->label('Sync Complain')
+                //     ->action(function () {
+                //         FetchComplains::handle();
+                //         redirect()->route('filament.portal.resources.observations.index');
+                //     }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

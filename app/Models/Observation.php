@@ -16,6 +16,7 @@ class Observation extends Model
         'description',
         'name',
         'contact_no',
+        'email',
         'photo',
         'location', // (lat, lng)
         'reported_by', // (user_id)
