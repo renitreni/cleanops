@@ -62,16 +62,6 @@
             </div>
 
             <div class="form-group mt-4">
-                <label for="resident_id" class="block text-sm font-medium text-gray-700">Resident ID Number</label>
-                <input type="text"
-                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 @error('resident_id') border-red-500 @enderror"
-                    id="resident_id" name="resident_id" value="{{ old('resident_id') }}">
-                @error('resident_id')
-                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                @enderror
-            </div>
-
-            <div class="form-group mt-4">
                 <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
                 <input type="text"
                     class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 @error('address') border-red-500 @enderror"

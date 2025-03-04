@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use App\Livewire\AdminWidgets;
+use App\Services\AlertDetails;
 use Filament\Enums\ThemeMode;
 use Filament\Facades\Filament;
 use Filament\Http\Middleware\Authenticate;
@@ -65,19 +66,23 @@ class PortalPanelProvider extends PanelProvider
         // Inject view at the start of the body in every Filament page
         Filament::registerRenderHook(
             'panels::content.start',
-            fn () => view('alerts.due')
+            function () {
+                return view('alerts.pending', ['count' => app(AlertDetails::class)->pending()]);
+            }
         );
         Filament::registerRenderHook(
             'panels::content.start',
-            fn () => view('alerts.pending')
+            function () {
+                return view('alerts.due', ['count' => app(AlertDetails::class)->pending()]);
+            }
         );
         Filament::registerRenderHook(
             'panels::content.start',
-            fn () => view('alerts.resolved')
+            fn() => view('alerts.resolved')
         );
         Filament::registerRenderHook(
             'panels::content.start',
-            fn () => view('alerts.emergency')
+            fn() => view('alerts.emergency')
         );
     }
 }

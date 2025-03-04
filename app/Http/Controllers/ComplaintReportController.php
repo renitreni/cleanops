@@ -33,7 +33,6 @@ class ComplaintReportController extends Controller
             'lat' => $request->input('latitude'),
             'lng' => $request->input('longitude'),
         ]);
-        $observation->reported_by = $request->input('resident_id');
         $observation->status = 'pending';
         $observation->save();
 
