@@ -48,31 +48,31 @@ class ObservationResource extends Resource
                 TextColumn::make('contact_no')->sortable(),
                 TextColumn::make('status')->sortable()
                     ->badge()
-                    ->color(fn (string $state): string => match ($state) {
+                    ->color(fn(string $state): string => match ($state) {
                         'pending' => 'warning',
                         'in_progress' => 'info',
                         'resolved' => 'success',
                     }),
-                TextColumn::make('photo')
-                    ->sortable()
-                    ->label('Photo')
-                    ->formatStateUsing(function ($state) {
-                        $jsonString = $state;
+                // TextColumn::make('photo')
+                //     ->sortable()
+                //     ->label('Photo')
+                //     ->formatStateUsing(function ($state) {
+                //         $jsonString = $state;
 
-                        // Decode JSON to an associative array
-                        $data = json_decode($jsonString, true);
+                //         // Decode JSON to an associative array
+                //         $data = json_decode($jsonString, true);
 
-                        $images = '';
-                        foreach ($data ?? [] as $item) {
-                            if ($item) {
-                                $jsondecode = $item[0];
-                                $images .= "<img src='{$jsondecode}' target='_blank'/>";
-                            }
-                        }
+                //         $images = '';
+                //         foreach ($data ?? [] as $item) {
+                //             if ($item) {
+                //                 $jsondecode = $item;
+                //                 $images .= "<img src='{$jsondecode}' target='_blank'/>";
+                //             }
+                //         }
 
-                        return $images;
-                    })
-                    ->html(),
+                //         return $images;
+                //     })
+                //     ->html(),
             ])
             ->defaultSort('id', 'desc')
             ->filters([
@@ -147,7 +147,7 @@ class ObservationResource extends Resource
                     ->schema([
                         TextEntry::make('status')
                             ->badge()
-                            ->color(fn (string $state): string => match ($state) {
+                            ->color(fn(string $state): string => match ($state) {
                                 'in_progress' => 'info',
                                 'pending' => 'warning',
                                 'resolved' => 'success',
@@ -171,8 +171,26 @@ class ObservationResource extends Resource
                                 'sm' => 1,
                                 'md' => 4,
                             ]),
-                        ImageEntry::make('photo')
-                            ->columnSpanFull()->size(500),
+                        TextEntry::make('photo')
+                            ->formatStateUsing(function ($state) {
+                                $jsonString = $state;
+
+                                // Decode JSON to an associative array
+                                $data = json_decode($jsonString, true);
+
+                                $images = '';
+                                foreach ($data ?? [] as $item) {
+                                    if ($item) {
+                                        $jsondecode = $item;
+                                        $images .= "<img src='{$jsondecode}' target='_blank'/>";
+                                    }
+                                }
+
+                                return $images;
+                            })
+                            ->html()
+                            ->columnSpanFull()
+                            ->size(500),
                     ])->columnSpanFull(),
             ]);
     }
