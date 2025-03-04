@@ -12,6 +12,7 @@ class Observation extends Model
 
     protected $fillable = [
         'id',
+        'serial',
         'description',
         'name',
         'contact_no',
@@ -24,7 +25,12 @@ class Observation extends Model
     protected $casts = [
         'location' => 'array',
     ];
-
+    protected static function booting(): void
+    {
+        static::creating(function ($observation) {
+            $observation->serial = now()->format('YmdHis');
+        });
+    }
     // Relationships
     public function reporter()
     {

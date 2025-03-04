@@ -69,7 +69,7 @@ class ContractorResource extends Resource
     public static function getRelations(): array
     {
         return [
-            TasksRelationManager::class
+            //   TasksRelationManager::class
         ];
     }
 

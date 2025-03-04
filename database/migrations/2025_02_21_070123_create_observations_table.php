@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('observations', function (Blueprint $table) {
             $table->id();
-            $table->text('description');
+            $table->text('serial');
             $table->text('name')->nullable();
+            $table->text('description');
             $table->text('contact_no')->nullable();
             $table->longText('photo')->nullable();
             $table->json('location'); // Store lat, lng as JSON
