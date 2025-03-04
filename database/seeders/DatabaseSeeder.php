@@ -39,6 +39,9 @@ class DatabaseSeeder extends Seeder
                     'assigned_by' => User::where('role', 'admin')->inRandomOrder()->first()->id ?? User::first()->id,
                 ]);
             });
+
+            // Create observations
+            Observation::factory()->count(20)->create(['status' => 'pending']);
         }
     }
 }

@@ -18,7 +18,7 @@ class Observation extends Model
         'photo',
         'location', // (lat, lng) 
         'reported_by', // (user_id) 
-        'status', // (pending, in_progress, resolved) 
+        'status', // (pending, in_progress, resolved, rejected) 
     ];
 
     protected $casts = [

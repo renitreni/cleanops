@@ -4,8 +4,11 @@ namespace App\Filament\Portal\Resources;
 
 use App\Filament\Portal\Resources\ContractorResource\Pages;
 use App\Filament\Portal\Resources\ContractorResource\RelationManagers;
+use App\Filament\Portal\Resources\ContractorResource\RelationManagers\TasksRelationManager;
 use App\Models\Contractor;
 use Filament\Forms;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -26,7 +29,12 @@ class ContractorResource extends Resource
     {
         return $form
             ->schema([
-                //
+                TextInput::make('name')->label('Company Name'),
+                TextInput::make('contact_person'),
+                TextInput::make('phone'),
+                TextInput::make('email'),
+                Select::make('status')
+                    ->options(['active' => 'Active', 'inactive' => 'Inactive']),
             ]);
     }
 
@@ -38,10 +46,12 @@ class ContractorResource extends Resource
                 TextColumn::make('contact_person'),
                 TextColumn::make('phone'),
                 TextColumn::make('email'),
-                SelectColumn::make('status')->options([
-                    'active' => 'Active',
-                    'inactive' => 'Inactive',
-                ]),
+                TextColumn::make('status')
+                    ->badge()
+                    ->color(fn(string $state): string => match ($state) {
+                        'active' => 'success',
+                        'inactive' => 'danger',
+                    }),
             ])
             ->filters([
                 //
@@ -59,7 +69,7 @@ class ContractorResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            TasksRelationManager::class
         ];
     }
 

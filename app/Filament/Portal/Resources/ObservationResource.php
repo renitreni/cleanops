@@ -47,7 +47,13 @@ class ObservationResource extends Resource
             ->columns([
                 TextColumn::make('name')->sortable(),
                 TextColumn::make('contact_no')->sortable(),
-                TextColumn::make('status'),
+                TextColumn::make('status')->sortable()
+                    ->badge()
+                    ->color(fn(string $state): string => match ($state) {
+                        'pending' => 'warning',
+                        'in_progress' => 'info',
+                        'resolved' => 'success',
+                    }),
                 TextColumn::make('photo')
                     ->sortable()
                     ->label('Photo')

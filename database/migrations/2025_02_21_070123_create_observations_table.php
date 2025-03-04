@@ -19,7 +19,7 @@ return new class extends Migration
             $table->longText('photo')->nullable();
             $table->json('location'); // Store lat, lng as JSON
             $table->string('reported_by')->nullable();
-            $table->enum('status', ['pending', 'in_progress', 'resolved'])->default('pending');
+            $table->enum('status', ['pending', 'in_progress', 'resolved', 'rejected'])->default('pending');
             $table->timestamps();
         });
     }

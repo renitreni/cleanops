@@ -2,8 +2,10 @@
 
 namespace App\Providers\Filament;
 
+use App\Livewire\AdminWidgets;
 use App\Livewire\CustomDashboardWidget;
 use Filament\Enums\ThemeMode;
+use Filament\Facades\Filament;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -40,8 +42,7 @@ class PortalPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Portal/Widgets'), for: 'App\\Filament\\Portal\\Widgets')
             ->widgets([
-                Widgets\AccountWidget::class,
-                CustomDashboardWidget::class,
+                AdminWidgets::class
             ])
             ->topNavigation()
             ->middleware([
@@ -57,6 +58,28 @@ class PortalPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ])->viteTheme('resources/css/filament/portal/theme.css');
+            ])
+            ->viteTheme('resources/css/filament/portal/theme.css');
+    }
+
+    public function boot()
+    {
+        // Inject view at the start of the body in every Filament page
+        Filament::registerRenderHook(
+            'panels::content.start', 
+            fn () => view('alerts.due')
+        );
+        Filament::registerRenderHook(
+            'panels::content.start', 
+            fn () => view('alerts.pending')
+        );
+        Filament::registerRenderHook(
+            'panels::content.start', 
+            fn () => view('alerts.resolved')
+        );
+        Filament::registerRenderHook(
+            'panels::content.start', 
+            fn () => view('alerts.emergency')
+        );
     }
 }
