@@ -4,9 +4,16 @@ namespace App\Filament\Portal\Resources;
 
 use App\Filament\Portal\Resources\TaskResource\Pages;
 use App\Filament\Portal\Resources\TaskResource\RelationManagers;
+use App\Models\Contractor;
+use App\Models\Observation;
 use App\Models\Task;
+use App\Models\User;
 use Dom\Text;
 use Filament\Forms;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -25,7 +32,36 @@ class TaskResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Select::make('observation_id')
+                    ->required()
+                    ->label('Observation')
+                    ->options(Observation::all()->pluck('serial', 'id'))
+                    ->searchable(),
+                Select::make('contractor_id')
+                    ->required()
+                    ->label('Contractor')
+                    ->options(Contractor::all()->pluck('name', 'id'))
+                    ->searchable(),
+                Select::make('status')
+                    ->label('Task Status')
+                    ->required()
+                    ->options([
+                        'assigned' => 'Assigned',
+                        'completed' => 'Completed',
+                        'rejected' => 'Rejected',
+                    ]),
+                FileUpload::make('completion_photo'),
+                Grid::make()
+                    ->relationship('assignedBy')
+                    ->columnSpan(2)
+                    ->schema([
+                        Select::make('name')
+                            ->label('Assigned By')
+                            ->options(User::all()->pluck('name', 'id'))
+                            ->default(auth()->user()->name)
+                            ->disabled()
+                            ->searchable(),
+                    ]),
             ]);
     }
 
@@ -33,8 +69,16 @@ class TaskResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('observation_id'),
-                TextColumn::make('contractor_id'),
+                TextColumn::make('observation.serial'),
+                TextColumn::make('contractor.name'),
+                TextColumn::make('status')
+                    ->sortable()
+                    ->badge()
+                    ->color(fn(string $state): string => match ($state) {
+                        'assigned' => 'info',
+                        'rejected' => 'danger',
+                        'completed' => 'success',
+                    }),
             ])
             ->filters([
                 //
