@@ -18,8 +18,24 @@ class ComplaintReportController extends Controller
     public function store(ComplaintStoreRequest $request)
     {
         $imageUrl = [];
-        foreach ($request->file('attachments') as $file) {
-            $path = $file->store('evidences');
+        
+        if ($request->has('attachment1')) {
+            $path = $request->file('attachment1')->store('evidences');
+            $imageUrl[] = Storage::url($path);
+        }
+
+        if ($request->has('attachment2')) {
+            $path = $request->file('attachment2')->store('evidences');
+            $imageUrl[] = Storage::url($path);
+        }
+
+        if ($request->has('attachment3')) {
+            $path = $request->file('attachment3')->store('evidences');
+            $imageUrl[] = Storage::url($path);
+        }
+
+        if ($request->has('attachment4')) {
+            $path = $request->file('attachment4')->store('evidences');
             $imageUrl[] = Storage::url($path);
         }
 

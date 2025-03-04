@@ -82,45 +82,41 @@
             </div>
 
             <div class="form-group mt-4">
-                <label for="attachments" class="block text-sm font-medium text-gray-700">Evidence Attachments</label>
+                <label for="attachment1" class="block text-sm font-medium text-gray-700">Evidence Attachments</label>
                 <input type="file"
-                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 @error('attachments') border-red-500 @enderror"
-                    id="attachments" name="attachments[]" multiple>
-                <small class="text-gray-500">You can attach multiple files.</small>
-                @error('attachments')
+                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 @error('attachment1') border-red-500 @enderror"
+                    id="attachment1" name="attachment1">
+                @error('attachment1')
                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                 @enderror
             </div>
 
             <div class="form-group mt-4">
-                <label for="attachments" class="block text-sm font-medium text-gray-700">Evidence Attachments</label>
+                <label for="attachment2" class="block text-sm font-medium text-gray-700">Evidence Attachments</label>
                 <input type="file"
-                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 @error('attachments') border-red-500 @enderror"
-                    id="attachments" name="attachments[]" multiple>
-                <small class="text-gray-500">You can attach multiple files.</small>
-                @error('attachments')
+                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 @error('attachment2') border-red-500 @enderror"
+                    id="attachment2" name="attachment2">
+                @error('attachment2')
                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                 @enderror
             </div>
 
             <div class="form-group mt-4">
-                <label for="attachments" class="block text-sm font-medium text-gray-700">Evidence Attachments</label>
+                <label for="attachment3" class="block text-sm font-medium text-gray-700">Evidence Attachments</label>
                 <input type="file"
-                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 @error('attachments') border-red-500 @enderror"
-                    id="attachments" name="attachments[]" multiple>
-                <small class="text-gray-500">You can attach multiple files.</small>
-                @error('attachments')
+                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 @error('attachment3') border-red-500 @enderror"
+                    id="attachment3" name="attachments3">
+                @error('attachment3')
                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                 @enderror
             </div>
 
             <div class="form-group mt-4">
-                <label for="attachments" class="block text-sm font-medium text-gray-700">Evidence Attachments</label>
+                <label for="attachment4" class="block text-sm font-medium text-gray-700">Evidence Attachments</label>
                 <input type="file"
-                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 @error('attachments') border-red-500 @enderror"
-                    id="attachments" name="attachments[]" multiple>
-                <small class="text-gray-500">You can attach multiple files.</small>
-                @error('attachments')
+                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 @error('attachment4') border-red-500 @enderror"
+                    id="attachment4" name="attachments4">
+                @error('attachment4')
                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                 @enderror
             </div>
