@@ -4,7 +4,7 @@ use App\Http\Controllers\ComplaintReportController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return '';
+    return redirect()->to('https://ajmalsa.com/');
 });
 
 Route::get('/complaint-report', [ComplaintReportController::class, 'index'])->name('complaint-report');
