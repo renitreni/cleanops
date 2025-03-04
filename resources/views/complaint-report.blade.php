@@ -11,7 +11,7 @@
 <body class="bg-gray-100 mt-5">
 
     <div class="container mx-auto bg-white p-8 rounded-lg shadow-md">
-        <h4 class="text-xl font-semibold mb-4">Start Proper Waste Disposal Today</h4>
+        <h4 class="text-xl font-semibold mb-4">Waste & Damage Management Solution</h4>
         <h2 class="text-5xl font-bold mb-4">Complaint Report</h2>
         <p class="mb-5">Please fill out the complaint report form for the waste management system to ensure your
             concerns are addressed promptly.</p>
@@ -61,16 +61,6 @@
                 </div>
             </div>
 
-            <div class="form-group mt-4">
-                <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
-                <input type="text"
-                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 @error('address') border-red-500 @enderror"
-                    id="address" name="address" value="{{ old('address') }}">
-                @error('address')
-                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                @enderror
-            </div>
-
             <!-- Hidden geolocation fields -->
             <input type="hidden" id="latitude" name="latitude" value="{{ old('latitude') }}">
             <input type="hidden" id="longitude" name="longitude" value="{{ old('longitude') }}">
@@ -89,6 +79,39 @@
                         Getting your location...
                     </span>
                 </div>
+            </div>
+
+            <div class="form-group mt-4">
+                <label for="attachments" class="block text-sm font-medium text-gray-700">Evidence Attachments</label>
+                <input type="file"
+                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 @error('attachments') border-red-500 @enderror"
+                    id="attachments" name="attachments[]" multiple>
+                <small class="text-gray-500">You can attach multiple files.</small>
+                @error('attachments')
+                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <div class="form-group mt-4">
+                <label for="attachments" class="block text-sm font-medium text-gray-700">Evidence Attachments</label>
+                <input type="file"
+                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 @error('attachments') border-red-500 @enderror"
+                    id="attachments" name="attachments[]" multiple>
+                <small class="text-gray-500">You can attach multiple files.</small>
+                @error('attachments')
+                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
+            <div class="form-group mt-4">
+                <label for="attachments" class="block text-sm font-medium text-gray-700">Evidence Attachments</label>
+                <input type="file"
+                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 @error('attachments') border-red-500 @enderror"
+                    id="attachments" name="attachments[]" multiple>
+                <small class="text-gray-500">You can attach multiple files.</small>
+                @error('attachments')
+                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                @enderror
             </div>
 
             <div class="form-group mt-4">
