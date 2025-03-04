@@ -8,5 +8,4 @@ use Filament\Resources\Pages\ViewRecord;
 class ViewObservation extends ViewRecord
 {
     protected static string $resource = ObservationResource::class;
-
 }

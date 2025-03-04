@@ -11,10 +11,10 @@ class Kpi extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id', 
-        'contractor_id', 
-        'metric_name', 
-        'value', 
-        'date', 
+        'id',
+        'contractor_id',
+        'metric_name',
+        'value',
+        'date',
     ];
 }

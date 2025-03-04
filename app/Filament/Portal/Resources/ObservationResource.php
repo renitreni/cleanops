@@ -18,7 +18,6 @@ use Filament\Tables;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\ViewColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Mail;
 
@@ -49,7 +48,7 @@ class ObservationResource extends Resource
                 TextColumn::make('contact_no')->sortable(),
                 TextColumn::make('status')->sortable()
                     ->badge()
-                    ->color(fn(string $state): string => match ($state) {
+                    ->color(fn (string $state): string => match ($state) {
                         'pending' => 'warning',
                         'in_progress' => 'info',
                         'resolved' => 'success',
@@ -83,22 +82,23 @@ class ObservationResource extends Resource
                 Action::make('location')
                     ->url(function (Observation $record) {
                         $data = json_decode($record->location, true);
+
                         return "https://www.google.com/maps?q={$data['lat']},{$data['lng']}";
                     })
                     ->icon('heroicon-o-map-pin')
                     ->openUrlInNewTab(),
-                ViewAction::make()
+                ViewAction::make(),
             ])
             ->headerActions([
                 Action::make('sync2')
                     ->label('Sample Process Received Email')
                     ->action(function () {
-                        Mail::to('renier.trenuela@gmail.com')->bcc(['ferdzsabado@gmail.com'])->send(new ComplaintProcessMail());
+                        Mail::to('renier.trenuela@gmail.com')->bcc(['ferdzsabado@gmail.com'])->send(new ComplaintProcessMail);
                     }),
                 Action::make('sync3')
                     ->label('Sample Due Process Received Email')
                     ->action(function () {
-                        Mail::to('renier.trenuela@gmail.com')->bcc(['ferdzsabado@gmail.com'])->send(new ComplaintDueProcessMail());
+                        Mail::to('renier.trenuela@gmail.com')->bcc(['ferdzsabado@gmail.com'])->send(new ComplaintDueProcessMail);
                     }),
                 Action::make('sync')
                     ->label('Sync Complain')
@@ -132,7 +132,7 @@ class ObservationResource extends Resource
             'index' => Pages\ListObservations::route('/'),
             // 'create' => Pages\CreateObservation::route('/create'),
             // 'edit' => Pages\EditObservation::route('/{record}/edit'),
-            'view' => ViewObservation::route('/{record}')
+            'view' => ViewObservation::route('/{record}'),
         ];
     }
 
@@ -147,7 +147,7 @@ class ObservationResource extends Resource
                     ->schema([
                         TextEntry::make('status')
                             ->badge()
-                            ->color(fn(string $state): string => match ($state) {
+                            ->color(fn (string $state): string => match ($state) {
                                 'in_progress' => 'info',
                                 'pending' => 'warning',
                                 'resolved' => 'success',
@@ -173,7 +173,7 @@ class ObservationResource extends Resource
                             ]),
                         ImageEntry::make('photo')
                             ->columnSpanFull()->size(500),
-                    ])->columnSpanFull()
+                    ])->columnSpanFull(),
             ]);
     }
 }

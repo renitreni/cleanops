@@ -10,10 +10,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Auth;
 
 class TasksRelationManager extends RelationManager
@@ -51,7 +48,7 @@ class TasksRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('observation.description'),
                 Tables\Columns\TextColumn::make('status')
                     ->badge()
-                    ->color(fn(string $state): string => match ($state) {
+                    ->color(fn (string $state): string => match ($state) {
                         'completed' => 'success',
                         'assigned' => 'info',
                         'rejected' => 'danger',

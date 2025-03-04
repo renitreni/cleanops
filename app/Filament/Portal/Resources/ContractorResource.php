@@ -3,21 +3,15 @@
 namespace App\Filament\Portal\Resources;
 
 use App\Filament\Portal\Resources\ContractorResource\Pages;
-use App\Filament\Portal\Resources\ContractorResource\RelationManagers;
 use App\Filament\Portal\Resources\ContractorResource\RelationManagers\TasksRelationManager;
 use App\Models\Contractor;
-use Filament\Forms;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ContractorResource extends Resource
 {
@@ -48,7 +42,7 @@ class ContractorResource extends Resource
                 TextColumn::make('email'),
                 TextColumn::make('status')
                     ->badge()
-                    ->color(fn(string $state): string => match ($state) {
+                    ->color(fn (string $state): string => match ($state) {
                         'active' => 'success',
                         'inactive' => 'danger',
                     }),

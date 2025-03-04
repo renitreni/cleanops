@@ -21,7 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role', // (observer, contractor, admin) 
+        'role', // (observer, contractor, admin)
     ];
 
     /**

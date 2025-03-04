@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -24,10 +23,10 @@ class ObservationFactory extends Factory
             'photo' => json_encode([[$this->faker->imageUrl()], [$this->faker->imageUrl()]]),
             'location' => json_encode([
                 'lat' => $this->faker->latitude(),
-                'lng' => $this->faker->longitude()
+                'lng' => $this->faker->longitude(),
             ]),
-            'reported_by' => User::factory(),
-            'status' => 'pending', //'pending', 'in_progress', 'resolved'
+            'reported_by' => fake()->swiftBicNumber(),
+            'status' => 'pending', // 'pending', 'in_progress', 'resolved'
         ];
     }
 }

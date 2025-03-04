@@ -11,10 +11,10 @@ class Feedback extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id', 
-        'task_id', 
-        'reviewer_id', // (user_id) 
-        'rating', // (1-5) 
-        'comments', 
+        'id',
+        'task_id',
+        'reviewer_id', // (user_id)
+        'rating', // (1-5)
+        'comments',
     ];
 }

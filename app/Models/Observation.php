@@ -17,24 +17,20 @@ class Observation extends Model
         'name',
         'contact_no',
         'photo',
-        'location', // (lat, lng) 
-        'reported_by', // (user_id) 
-        'status', // (pending, in_progress, resolved, rejected) 
+        'location', // (lat, lng)
+        'reported_by', // (user_id)
+        'status', // (pending, in_progress, resolved, rejected)
     ];
 
     protected $casts = [
         'location' => 'array',
     ];
+
     protected static function booting(): void
     {
         static::creating(function ($observation) {
             $observation->serial = now()->format('YmdHis');
         });
-    }
-    // Relationships
-    public function reporter()
-    {
-        return $this->belongsTo(User::class, 'reported_by');
     }
 
     public function task()

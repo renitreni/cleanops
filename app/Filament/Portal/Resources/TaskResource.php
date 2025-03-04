@@ -3,24 +3,19 @@
 namespace App\Filament\Portal\Resources;
 
 use App\Filament\Portal\Resources\TaskResource\Pages;
-use App\Filament\Portal\Resources\TaskResource\RelationManagers;
 use App\Models\Contractor;
 use App\Models\Observation;
 use App\Models\Task;
 use App\Models\User;
-use Dom\Text;
-use Filament\Forms;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Auth;
 
 class TaskResource extends Resource
 {
@@ -58,7 +53,7 @@ class TaskResource extends Resource
                         Select::make('name')
                             ->label('Assigned By')
                             ->options(User::all()->pluck('name', 'id'))
-                            ->default(auth()->user()->name)
+                            ->default(Auth::user()->name)
                             ->disabled()
                             ->searchable(),
                     ]),
@@ -69,12 +64,12 @@ class TaskResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('observation.serial'),
-                TextColumn::make('contractor.name'),
-                TextColumn::make('status')
+                TextColumn::make('observation.serial')->sortable(),
+                TextColumn::make('contractor.name')->sortable(),
+                TextColumn::make('status')->sortable()
                     ->sortable()
                     ->badge()
-                    ->color(fn(string $state): string => match ($state) {
+                    ->color(fn (string $state): string => match ($state) {
                         'assigned' => 'info',
                         'rejected' => 'danger',
                         'completed' => 'success',
