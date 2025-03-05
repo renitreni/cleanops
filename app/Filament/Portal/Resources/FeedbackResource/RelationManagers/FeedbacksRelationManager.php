@@ -31,7 +31,8 @@ class FeedbacksRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('comments')
             ->columns([
-                Tables\Columns\TextColumn::make('comments'),
+                Tables\Columns\TextColumn::make('comments')->grow(),
+                Tables\Columns\TextColumn::make('reviewer.name')->label('Comment by'),
                 Tables\Columns\TextColumn::make('created_at')->dateTime(),
             ])
             ->filters([
@@ -39,6 +40,7 @@ class FeedbacksRelationManager extends RelationManager
             ])
             ->headerActions([
                 Tables\Actions\Action::make('create')
+                    ->label('Add Comment')
                     ->form([
                         Textarea::make('comments')->required()
                     ])

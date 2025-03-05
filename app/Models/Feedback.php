@@ -22,4 +22,9 @@ class Feedback extends Model
     {
         return $this->belongsTo(Task::class);
     }
+
+    public function reviewer()
+    {
+        return $this->belongsTo(User::class, 'reviewer_id');
+    }
 }
