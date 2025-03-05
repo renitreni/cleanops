@@ -16,6 +16,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 
 class TaskResource extends Resource
@@ -23,6 +24,11 @@ class TaskResource extends Resource
     protected static ?string $model = Task::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+
+    public static function canDeleteAny(): bool
+    {
+        return Auth::user()->role == 'admin';
+    }
 
     public static function form(Form $form): Form
     {
@@ -82,6 +88,12 @@ class TaskResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])
+            ->modifyQueryUsing(function (Builder $query) {
+                if (Auth::user()->role === 'contractor') {
+                    $contractor = Contractor::find(Auth::user()->entity_id);
+                    return $query->where('contractor_id', $contractor->id);
+                }
+            })
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),

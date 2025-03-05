@@ -8,12 +8,18 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
 
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
+
+    public static function canAccess(): bool
+    {
+        return Auth::user()->role == 'admin';
+    }
 
     public static function form(Form $form): Form
     {

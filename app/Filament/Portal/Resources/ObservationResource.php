@@ -45,7 +45,7 @@ class ObservationResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('created_at')->sortable()->dateTime(),
-                TextColumn::make('serial')->sortable(),
+                TextColumn::make('serial')->sortable()->copyable(),
                 TextColumn::make('name')->sortable(),
                 TextColumn::make('contact_no')->sortable(),
                 TextColumn::make('status')->sortable()

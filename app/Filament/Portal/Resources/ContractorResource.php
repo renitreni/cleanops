@@ -4,6 +4,7 @@ namespace App\Filament\Portal\Resources;
 
 use App\Filament\Portal\Resources\ContractorResource\Pages;
 use App\Filament\Portal\Resources\ContractorResource\RelationManagers\TasksRelationManager;
+use App\Filament\Portal\Resources\ContractorResource\RelationManagers\UsersRelationManager;
 use App\Models\Contractor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -12,12 +13,18 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
 
 class ContractorResource extends Resource
 {
     protected static ?string $model = Contractor::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-wrench-screwdriver';
+    
+    public static function canAccess(): bool
+    {
+        return Auth::user()->role == 'admin';
+    }
 
     public static function form(Form $form): Form
     {
@@ -42,7 +49,7 @@ class ContractorResource extends Resource
                 TextColumn::make('email'),
                 TextColumn::make('status')
                     ->badge()
-                    ->color(fn (string $state): string => match ($state) {
+                    ->color(fn(string $state): string => match ($state) {
                         'active' => 'success',
                         'inactive' => 'danger',
                     }),
@@ -64,6 +71,7 @@ class ContractorResource extends Resource
     {
         return [
             //   TasksRelationManager::class
+            UsersRelationManager::class
         ];
     }
 
