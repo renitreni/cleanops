@@ -44,6 +44,7 @@ class ObservationResource extends Resource
     {
         return $table
             ->columns([
+                TextColumn::make('created_at')->sortable()->dateTime(),
                 TextColumn::make('serial')->sortable(),
                 TextColumn::make('name')->sortable(),
                 TextColumn::make('contact_no')->sortable(),
@@ -75,7 +76,7 @@ class ObservationResource extends Resource
                 //     })
                 //     ->html(),
             ])
-            ->defaultSort('id', 'desc')
+            ->defaultSort('created_at', 'desc')
             ->filters([
                 //
             ])

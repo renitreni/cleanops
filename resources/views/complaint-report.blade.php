@@ -19,28 +19,16 @@
         <form method="POST" action="{{ route('complaint-report.store') }}" enctype="multipart/form-data">
             @csrf
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
                 <div class="form-group">
-                    <label for="first_name" class="block text-sm font-medium text-gray-700">First Name</label>
+                    <label for="fullname" class="block text-sm font-medium text-gray-700">Fullname</label>
                     <input type="text"
-                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 @error('first_name') border-red-500 @enderror"
-                        id="first_name" name="first_name" value="{{ old('first_name') }}">
-                    @error('first_name')
+                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 @error('fullname') border-red-500 @enderror"
+                        id="fullname" name="fullname" value="{{ old('first_name') }}">
+                    @error('fullname')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
                 </div>
-                <div class="form-group">
-                    <label for="last_name" class="block text-sm font-medium text-gray-700">Last Name</label>
-                    <input type="text"
-                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 @error('last_name') border-red-500 @enderror"
-                        id="last_name" name="last_name" value="{{ old('last_name') }}">
-                    @error('last_name')
-                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                 <div class="form-group">
                     <label for="phone_number" class="block text-sm font-medium text-gray-700">Phone Number</label>
                     <input type="tel"
@@ -105,7 +93,7 @@
                 <label for="attachment3" class="block text-sm font-medium text-gray-700">Evidence Attachments</label>
                 <input type="file"
                     class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 @error('attachment3') border-red-500 @enderror"
-                    id="attachment3" name="attachments3">
+                    id="attachment3" name="attachment3">
                 @error('attachment3')
                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                 @enderror
@@ -115,7 +103,7 @@
                 <label for="attachment4" class="block text-sm font-medium text-gray-700">Evidence Attachments</label>
                 <input type="file"
                     class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 @error('attachment4') border-red-500 @enderror"
-                    id="attachment4" name="attachments4">
+                    id="attachment4" name="attachment4">
                 @error('attachment4')
                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                 @enderror
