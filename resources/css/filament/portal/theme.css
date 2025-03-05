@@ -1,4 +1,7 @@
-
 @import '../../../../vendor/filament/filament/resources/css/theme.css';
 
-@config 'tailwind.config.js'
+@config 'tailwind.config.js';
+
+.fi-simple-layout {
+    background-image: url('/images/claudio-schwarz-L2r8mBo-Sns-unsplash.jpg')
+}
