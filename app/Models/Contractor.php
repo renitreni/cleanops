@@ -23,4 +23,9 @@ class Contractor extends Model
     {
         return $this->hasMany(Task::class);
     }
+
+    public function users()
+    {
+        return $this->hasMany(User::class, 'entity_id')->where('role', 'contractor');
+    }
 }
