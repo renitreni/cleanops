@@ -17,4 +17,9 @@ class Feedback extends Model
         'rating', // (1-5)
         'comments',
     ];
+
+    public function task()
+    {
+        return $this->belongsTo(Task::class);
+    }
 }

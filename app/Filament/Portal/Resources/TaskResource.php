@@ -2,6 +2,7 @@
 
 namespace App\Filament\Portal\Resources;
 
+use App\Filament\Portal\Resources\FeedbackResource\RelationManagers\FeedbacksRelationManager;
 use App\Filament\Portal\Resources\TaskResource\Pages;
 use App\Models\Contractor;
 use App\Models\Observation;
@@ -69,7 +70,7 @@ class TaskResource extends Resource
                 TextColumn::make('status')->sortable()
                     ->sortable()
                     ->badge()
-                    ->color(fn (string $state): string => match ($state) {
+                    ->color(fn(string $state): string => match ($state) {
                         'assigned' => 'info',
                         'rejected' => 'danger',
                         'completed' => 'success',
@@ -91,7 +92,7 @@ class TaskResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            FeedbacksRelationManager::class
         ];
     }
 
