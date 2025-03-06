@@ -77,7 +77,7 @@
                 <label for="attachment1" class="block text-sm font-medium text-gray-700">Evidence Attachments / مرفقات
                     الأدلة</label>
                 <input type="file"
-                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 @error('attachment1') border-red-500 @enderror"
+                    class="mt-1 block w-full @error('attachment1') border-red-500 @enderror"
                     id="attachment1" name="attachment1">
                 @error('attachment1')
                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -88,7 +88,7 @@
                 <label for="attachment2" class="block text-sm font-medium text-gray-700">Evidence Attachments / مرفقات
                     الأدلة</label>
                 <input type="file"
-                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 @error('attachment2') border-red-500 @enderror"
+                    class="mt-1 block w-full @error('attachment2') border-red-500 @enderror"
                     id="attachment2" name="attachment2">
                 @error('attachment2')
                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -99,7 +99,7 @@
                 <label for="attachment3" class="block text-sm font-medium text-gray-700">Evidence Attachments / مرفقات
                     الأدلة</label>
                 <input type="file"
-                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 @error('attachment3') border-red-500 @enderror"
+                    class="mt-1 block w-full @error('attachment3') border-red-500 @enderror"
                     id="attachment3" name="attachment3">
                 @error('attachment3')
                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -110,7 +110,7 @@
                 <label for="attachment4" class="block text-sm font-medium text-gray-700">Evidence Attachments / مرفقات
                     الأدلة</label>
                 <input type="file"
-                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 @error('attachment4') border-red-500 @enderror"
+                    class="mt-1 block w-full @error('attachment4') border-red-500 @enderror"
                     id="attachment4" name="attachment4">
                 @error('attachment4')
                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
