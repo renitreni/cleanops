@@ -46,7 +46,7 @@
                     <label for="fullname" class="block text-sm font-medium text-gray-700">Fullname / الاسم
                         الكامل</label>
                     <input type="text"
-                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 @error('fullname') border-red-500 @enderror"
+                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 @error('fullname') border-red-500 @enderror"
                         id="fullname" name="fullname" value="{{ old('first_name') }}">
                     @error('fullname')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -56,7 +56,7 @@
                     <label for="phone_number" class="block text-sm font-medium text-gray-700">Phone Number / رقم
                         التليفون</label>
                     <input type="tel"
-                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 @error('phone_number') border-red-500 @enderror"
+                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 @error('phone_number') border-red-500 @enderror"
                         id="phone_number" name="phone_number" value="{{ old('phone_number') }}">
                     @error('phone_number')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -65,7 +65,7 @@
                 <div class="form-group">
                     <label for="email" class="block text-sm font-medium text-gray-700">Email / بريد إلكتروني</label>
                     <input type="email"
-                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 @error('email') border-red-500 @enderror"
+                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 @error('email') border-red-500 @enderror"
                         id="email" name="email" value="{{ old('email') }}">
                     @error('email')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -120,7 +120,7 @@
             <div class="form-group mt-4">
                 <label for="message" class="block text-sm font-medium text-gray-700">Message / خطاب</label>
                 <textarea
-                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 @error('message') border-red-500 @enderror"
+                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-1 @error('message') border-red-500 @enderror"
                     id="message" name="message" rows="4">{{ old('message') }}</textarea>
                 @error('message')
                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -128,7 +128,7 @@
             </div>
 
             <button type="submit"
-                class="mt-4 bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600">Submit /
+                class="mt-4 bg-blue-500 text-white font-semibold py-1 px-3 rounded hover:bg-blue-600">Submit /
                 سلم</button>
         </form>
     </div>
