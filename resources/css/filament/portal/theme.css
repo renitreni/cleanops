@@ -107,3 +107,27 @@
   [role="alert-due"]:hover {
     box-shadow: 0 0 25px rgba(59, 130, 246, 0.9);
   }
+  
+  @keyframes glow-emergency {
+    0% {
+      box-shadow: 0 0 5px rgba(73, 68, 68, 0.5);
+    }
+    50% {
+      box-shadow: 0 0 20px rgba(22, 5, 8, 0.8);
+    }
+    100% {
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    }
+  }
+  
+  [role="alert-emergency"] {
+    margin: 10px;
+    width: 480px;
+    animation: glow-emergency 2s infinite ease-in-out;
+    transition: all 0.3s ease;
+  }
+  
+  /* Optional: enhance the glow effect on hover */
+  [role="alert-emergency"]:hover {
+    box-shadow: 0 0 25px rgba(59, 130, 246, 0.9);
+  }

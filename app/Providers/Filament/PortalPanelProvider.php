@@ -84,9 +84,9 @@ class PortalPanelProvider extends PanelProvider
             'panels::content.start',
             fn () => view('alerts.completed', ['count' => app(AlertDetails::class)->completed()])
         );
-        // Filament::registerRenderHook(
-        //     'panels::content.start',
-        //     fn () => view('alerts.emergency')
-        // );
+        Filament::registerRenderHook(
+            'panels::content.start',
+            fn () => view('alerts.emergency')
+        );
     }
 }
