@@ -76,8 +76,7 @@
             <div class="form-group mt-4">
                 <label for="attachment1" class="block text-sm font-medium text-gray-700">Evidence Attachments / مرفقات
                     الأدلة</label>
-                <input type="file"
-                    class="mt-1 block w-full @error('attachment1') border-red-500 @enderror"
+                <input type="file" class="mt-1 block w-full @error('attachment1') border-red-500 @enderror"
                     id="attachment1" name="attachment1">
                 @error('attachment1')
                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -87,8 +86,7 @@
             <div class="form-group mt-4">
                 <label for="attachment2" class="block text-sm font-medium text-gray-700">Evidence Attachments / مرفقات
                     الأدلة</label>
-                <input type="file"
-                    class="mt-1 block w-full @error('attachment2') border-red-500 @enderror"
+                <input type="file" class="mt-1 block w-full @error('attachment2') border-red-500 @enderror"
                     id="attachment2" name="attachment2">
                 @error('attachment2')
                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -98,8 +96,7 @@
             <div class="form-group mt-4">
                 <label for="attachment3" class="block text-sm font-medium text-gray-700">Evidence Attachments / مرفقات
                     الأدلة</label>
-                <input type="file"
-                    class="mt-1 block w-full @error('attachment3') border-red-500 @enderror"
+                <input type="file" class="mt-1 block w-full @error('attachment3') border-red-500 @enderror"
                     id="attachment3" name="attachment3">
                 @error('attachment3')
                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -109,8 +106,7 @@
             <div class="form-group mt-4">
                 <label for="attachment4" class="block text-sm font-medium text-gray-700">Evidence Attachments / مرفقات
                     الأدلة</label>
-                <input type="file"
-                    class="mt-1 block w-full @error('attachment4') border-red-500 @enderror"
+                <input type="file" class="mt-1 block w-full @error('attachment4') border-red-500 @enderror"
                     id="attachment4" name="attachment4">
                 @error('attachment4')
                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -212,11 +208,11 @@
             }
         });
         @if ($message = session('succes_message'))
-            Swal.fire(
-                'Complaint has been sent! / تم إرسال الشكوى!',
-                '{{ $message }}',
-                'success'
-            )
+            Swal.fire({
+                imageUrl: "https://static.vecteezy.com/system/resources/thumbnails/002/015/941/original/parallax-arabic-and-businessman-shaking-hand-free-video.jpg",
+                imageHeight: 200,
+                title: 'Complaint has been sent! / تم إرسال الشكوى!',
+            });
         @endif
     </script>
 
