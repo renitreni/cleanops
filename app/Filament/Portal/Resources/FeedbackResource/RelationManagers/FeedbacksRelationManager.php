@@ -3,7 +3,6 @@
 namespace App\Filament\Portal\Resources\FeedbackResource\RelationManagers;
 
 use App\Models\Feedback;
-use Dom\Comment;
 use Filament\Forms;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Form;
@@ -42,16 +41,16 @@ class FeedbacksRelationManager extends RelationManager
                 Tables\Actions\Action::make('create')
                     ->label('Add Comment')
                     ->form([
-                        Textarea::make('comments')->required()
+                        Textarea::make('comments')->required(),
                     ])
                     ->action(function (array $data, array $arguments): void {
                         // Create
-                        $feedback = new Feedback();
+                        $feedback = new Feedback;
                         $feedback->task_id = $this->ownerRecord->id;
                         $feedback->comments = $data['comments'];
                         $feedback->reviewer_id = Auth::user()->id;
                         $feedback->save();
-                    })
+                    }),
             ])
             ->actions([
                 // Tables\Actions\EditAction::make(),

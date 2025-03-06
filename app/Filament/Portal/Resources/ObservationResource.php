@@ -10,7 +10,6 @@ use App\Mail\ComplaintProcessMail;
 use App\Models\Observation;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Grid;
-use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
@@ -54,7 +53,7 @@ class ObservationResource extends Resource
                 TextColumn::make('contact_no')->searchable()->sortable(),
                 TextColumn::make('status')->sortable()
                     ->badge()
-                    ->color(fn(string $state): string => match ($state) {
+                    ->color(fn (string $state): string => match ($state) {
                         'pending' => 'warning',
                         'in_progress' => 'info',
                         'resolved' => 'success',
@@ -153,7 +152,7 @@ class ObservationResource extends Resource
                     ->schema([
                         TextEntry::make('status')
                             ->badge()
-                            ->color(fn(string $state): string => match ($state) {
+                            ->color(fn (string $state): string => match ($state) {
                                 'in_progress' => 'info',
                                 'pending' => 'warning',
                                 'resolved' => 'success',

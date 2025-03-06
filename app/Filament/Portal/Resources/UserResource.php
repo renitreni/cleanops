@@ -9,7 +9,6 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 
@@ -50,7 +49,7 @@ class UserResource extends Resource
                 Tables\Actions\EditAction::make(),
             ])
             ->modifyQueryUsing(function (Builder $query) {
-                    return $query->where('role', 'admin');
+                return $query->where('role', 'admin');
             })
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

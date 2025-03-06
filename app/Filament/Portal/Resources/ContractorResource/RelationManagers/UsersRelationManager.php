@@ -9,8 +9,6 @@ use Filament\Resources\Pages\CreateRecord;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Hash;
 
 class UsersRelationManager extends RelationManager
@@ -60,21 +58,21 @@ class UsersRelationManager extends RelationManager
                             ->required()
                             ->password()
                             ->revealable()
-                            ->dehydrateStateUsing(fn($state) => Hash::make($state))
-                            ->required(fn($livewire) => $livewire instanceof CreateRecord)
+                            ->dehydrateStateUsing(fn ($state) => Hash::make($state))
+                            ->required(fn ($livewire) => $livewire instanceof CreateRecord)
                             ->maxLength(255)
                             ->hiddenOn('edit'),
                     ])
                     ->action(function (array $data, array $arguments): void {
                         // Create
-                        $feedback = new User();
+                        $feedback = new User;
                         $feedback->entity_id = $this->ownerRecord->id;
                         $feedback->role = 'contractor';
                         $feedback->name = $data['name'];
                         $feedback->email = $data['email'];
                         $feedback->password = $data['password'];
                         $feedback->save();
-                    })
+                    }),
             ])
             ->actions([
                 Tables\Actions\Action::make('change-password')

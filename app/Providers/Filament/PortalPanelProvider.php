@@ -78,15 +78,15 @@ class PortalPanelProvider extends PanelProvider
         );
         Filament::registerRenderHook(
             'panels::content.start',
-            fn() => view('alerts.in-progress', ['count' => app(AlertDetails::class)->inProgress()])
+            fn () => view('alerts.in-progress', ['count' => app(AlertDetails::class)->inProgress()])
         );
         Filament::registerRenderHook(
             'panels::content.start',
-            fn() => view('alerts.resolved')
+            fn () => view('alerts.resolved')
         );
         Filament::registerRenderHook(
             'panels::content.start',
-            fn() => view('alerts.emergency')
+            fn () => view('alerts.emergency')
         );
     }
 }

@@ -1,3 +1,4 @@
+@if ($count)
 <div role="alert" class="rounded-sm border-s-4 border-yellow-500 bg-yellow-50 p-4">
     <div class="flex items-center gap-2 text-yellow-800">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">
@@ -13,3 +14,4 @@
         The process is on hold and waiting for necessary input, approval, or external factors before progressing.
     </p>
 </div>
+@endif

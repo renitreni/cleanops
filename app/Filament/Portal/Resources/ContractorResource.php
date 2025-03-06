@@ -20,7 +20,7 @@ class ContractorResource extends Resource
     protected static ?string $model = Contractor::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-wrench-screwdriver';
-    
+
     public static function canAccess(): bool
     {
         return Auth::user()->role == 'admin';
@@ -49,7 +49,7 @@ class ContractorResource extends Resource
                 TextColumn::make('email'),
                 TextColumn::make('status')
                     ->badge()
-                    ->color(fn(string $state): string => match ($state) {
+                    ->color(fn (string $state): string => match ($state) {
                         'active' => 'success',
                         'inactive' => 'danger',
                     }),
@@ -71,7 +71,7 @@ class ContractorResource extends Resource
     {
         return [
             //   TasksRelationManager::class
-            UsersRelationManager::class
+            UsersRelationManager::class,
         ];
     }
 

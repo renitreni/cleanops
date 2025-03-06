@@ -78,6 +78,7 @@ class TaskResource extends Resource
                         if (Carbon::parse(Carbon::now()->subDay())->gt($record->updated_at)) {
                             return new HtmlString('<span class="text-red-800">This is due</span>');
                         }
+
                         return '';
                     }),
                 TextColumn::make('contractor.name')->searchable()->sortable(),
@@ -85,7 +86,7 @@ class TaskResource extends Resource
                 TextColumn::make('status')->sortable()
                     ->sortable()
                     ->badge()
-                    ->color(fn(string $state): string => match ($state) {
+                    ->color(fn (string $state): string => match ($state) {
                         'assigned' => 'info',
                         'rejected' => 'danger',
                         'completed' => 'success',
@@ -100,6 +101,7 @@ class TaskResource extends Resource
             ->modifyQueryUsing(function (Builder $query) {
                 if (Auth::user()->role === 'contractor') {
                     $contractor = Contractor::find(Auth::user()->entity_id);
+
                     return $query->where('contractor_id', $contractor->id);
                 }
             })
@@ -113,7 +115,7 @@ class TaskResource extends Resource
     public static function getRelations(): array
     {
         return [
-            FeedbacksRelationManager::class
+            FeedbacksRelationManager::class,
         ];
     }
 
