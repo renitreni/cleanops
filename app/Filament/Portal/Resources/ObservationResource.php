@@ -19,6 +19,7 @@ use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class ObservationResource extends Resource
 {
@@ -193,7 +194,14 @@ class ObservationResource extends Resource
                                 foreach ($data ?? [] as $item) {
                                     if ($item) {
                                         $jsondecode = $item;
-                                        $images .= "<img src='{$jsondecode}' target='_blank' width='420'/>";
+                                        if (Str::contains($jsondecode, '.mp4')) {
+                                            $images .= "<video width='320' height='240' controls>
+                                                    <source src='{$jsondecode}' type=''>
+                                                    Your browser does not support the video tag.
+                                                    </video>";
+                                        } else {
+                                            $images .= "<img src='{$jsondecode}' target='_blank' width='420'/>";
+                                        }
                                     }
                                 }
 
