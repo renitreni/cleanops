@@ -20,6 +20,11 @@ class AlertDetails
 
     public function due()
     {
-        return Task::query()->where('updated_at', '<', Carbon::now()->subDay())->count();
+        return Task::query()->where('updated_at', '<', Carbon::now()->subDay())->where('status', 'assigned')->count();
+    }
+
+    public function completed()
+    {
+        return Task::query()->where('status', 'completed')->count();
     }
 }
