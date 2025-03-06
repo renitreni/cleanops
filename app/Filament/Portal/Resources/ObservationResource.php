@@ -27,6 +27,10 @@ class ObservationResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-eye';
 
+    protected static ?string $navigationLabel = 'Complaints';
+
+    protected static ?string $modelLabel = 'Complaint';
+
     public static function form(Form $form): Form
     {
         return $form
