@@ -10,6 +10,6 @@
     </div>
 
     <p class="mt-1 text-sm text-gray-700">
-        A critical situation requiring immediate attention has been detected. Urgent action is needed to resolve the issue and prevent further impact.
+        A critical situation requiring immediate attention has been detected.
     </p>
 </div>
