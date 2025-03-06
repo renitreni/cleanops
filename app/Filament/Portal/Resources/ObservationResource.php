@@ -199,6 +199,8 @@ class ObservationResource extends Resource
                                                     <source src='{$jsondecode}' type=''>
                                                     Your browser does not support the video tag.
                                                     </video>";
+                                        } else if (Str::contains($jsondecode, '.docx')) {
+                                            $images .= "<a href='{$jsondecode}'>Download Link</a>";
                                         } else {
                                             $images .= "<img src='{$jsondecode}' target='_blank' width='420'/>";
                                         }
