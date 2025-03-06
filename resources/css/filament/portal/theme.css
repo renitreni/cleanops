@@ -3,131 +3,149 @@
 @config 'tailwind.config.js';
 
 .fi-simple-layout {
-    background-image: url('/images/claudio-schwarz-L2r8mBo-Sns-unsplash.jpg');
-    background-size: cover;
+  background-image: url('/images/claudio-schwarz-L2r8mBo-Sns-unsplash.jpg');
+  background-size: cover;
+}
+
+.fi-main-ctn {
+  background-color: #e5e5f7 !important;
+  background-image: linear-gradient(135deg, #0f805729  25%, transparent 25%), linear-gradient(225deg, #0f805729  25%, transparent 25%), linear-gradient(45deg, #0f805729  25%, transparent 25%), linear-gradient(315deg, #0f805729  25%, #e5e5f7 25%) !important;
+  background-position: 7px 0, 7px 0, 0 0, 0 0 !important;
+  background-size: 14px 14px !important;
+  background-repeat: repeat !important;
 }
 
 @keyframes glow-completed {
-    0% {
-      box-shadow: 0 0 5px rgba(59, 246, 153, 0.5);
-    }
-    50% {
-      box-shadow: 0 0 20px rgba(59, 246, 121, 0.8);
-    }
-    100% {
-      box-shadow: 0 0 5px rgba(59, 246, 68, 0.5);
-    }
-  }
-  
-  [role="alert-completed"] {
-    margin: 10px;
-    width: 480px;
-    animation: glow-completed 2s infinite ease-in-out;
-    transition: all 0.3s ease;
-  }
-  
-  /* Optional: enhance the glow effect on hover */
-  [role="alert-completed"]:hover {
-    box-shadow: 0 0 25px rgba(59, 130, 246, 0.9);
+  0% {
+    box-shadow: 0 0 5px rgba(59, 246, 153, 0.5);
   }
 
-  @keyframes glow-in-progress {
-    0% {
-      box-shadow: 0 0 5px rgba(72, 59, 246, 0.5);
-    }
-    50% {
-      box-shadow: 0 0 20px rgba(59, 62, 246, 0.8);
-    }
-    100% {
-      box-shadow: 0 0 5px rgba(59, 93, 246, 0.5);
-    }
+  50% {
+    box-shadow: 0 0 20px rgba(59, 246, 121, 0.8);
   }
-  
-  [role="alert-in-progress"] {
-    margin: 10px;
-    width: 480px;
-    animation: glow-in-progress 2s infinite ease-in-out;
-    transition: all 0.3s ease;
+
+  100% {
+    box-shadow: 0 0 5px rgba(59, 246, 68, 0.5);
   }
-  
-  /* Optional: enhance the glow effect on hover */
-  [role="alert-in-progress"]:hover {
-    box-shadow: 0 0 25px rgba(59, 130, 246, 0.9);
+}
+
+[role="alert-completed"] {
+  margin: 10px;
+  width: 480px;
+  animation: glow-completed 2s infinite ease-in-out;
+  transition: all 0.3s ease;
+}
+
+/* Optional: enhance the glow effect on hover */
+[role="alert-completed"]:hover {
+  box-shadow: 0 0 25px rgba(59, 130, 246, 0.9);
+}
+
+@keyframes glow-in-progress {
+  0% {
+    box-shadow: 0 0 5px rgba(72, 59, 246, 0.5);
   }
-  
-  @keyframes glow-pending {
-    0% {
-      box-shadow: 0 0 5px rgba(246, 243, 59, 0.5);
-    }
-    50% {
-      box-shadow: 0 0 20px rgba(246, 243, 59, 0.8);
-    }
-    100% {
-      box-shadow: 0 0 5px rgba(246, 243, 59, 0.5);
-    }
+
+  50% {
+    box-shadow: 0 0 20px rgba(59, 62, 246, 0.8);
   }
-  
-  [role="alert-pending"] {
-    margin: 10px;
-    width: 480px;
-    animation: glow-pending 2s infinite ease-in-out;
-    transition: all 0.3s ease;
+
+  100% {
+    box-shadow: 0 0 5px rgba(59, 93, 246, 0.5);
   }
-  
-  /* Optional: enhance the glow effect on hover */
-  [role="alert-pending"]:hover {
-    box-shadow: 0 0 25px rgba(59, 130, 246, 0.9);
+}
+
+[role="alert-in-progress"] {
+  margin: 10px;
+  width: 480px;
+  animation: glow-in-progress 2s infinite ease-in-out;
+  transition: all 0.3s ease;
+}
+
+/* Optional: enhance the glow effect on hover */
+[role="alert-in-progress"]:hover {
+  box-shadow: 0 0 25px rgba(59, 130, 246, 0.9);
+}
+
+@keyframes glow-pending {
+  0% {
+    box-shadow: 0 0 5px rgba(246, 243, 59, 0.5);
   }
-  
-  /* Optional: enhance the glow effect on hover */
-  [role="alert-in-progress"]:hover {
-    box-shadow: 0 0 25px rgba(59, 130, 246, 0.9);
+
+  50% {
+    box-shadow: 0 0 20px rgba(246, 243, 59, 0.8);
   }
-  
-  @keyframes glow-due {
-    0% {
-      box-shadow: 0 0 5px rgba(246, 59, 59, 0.5);
-    }
-    50% {
-      box-shadow: 0 0 20px rgba(246, 59, 90, 0.8);
-    }
-    100% {
-      box-shadow: 0 0 5px rgba(246, 59, 90, 0.5);
-    }
+
+  100% {
+    box-shadow: 0 0 5px rgba(246, 243, 59, 0.5);
   }
-  
-  [role="alert-due"] {
-    margin: 10px;
-    width: 480px;
-    animation: glow-due 2s infinite ease-in-out;
-    transition: all 0.3s ease;
+}
+
+[role="alert-pending"] {
+  margin: 10px;
+  width: 480px;
+  animation: glow-pending 2s infinite ease-in-out;
+  transition: all 0.3s ease;
+}
+
+/* Optional: enhance the glow effect on hover */
+[role="alert-pending"]:hover {
+  box-shadow: 0 0 25px rgba(59, 130, 246, 0.9);
+}
+
+/* Optional: enhance the glow effect on hover */
+[role="alert-in-progress"]:hover {
+  box-shadow: 0 0 25px rgba(59, 130, 246, 0.9);
+}
+
+@keyframes glow-due {
+  0% {
+    box-shadow: 0 0 5px rgba(246, 59, 59, 0.5);
   }
-  
-  /* Optional: enhance the glow effect on hover */
-  [role="alert-due"]:hover {
-    box-shadow: 0 0 25px rgba(59, 130, 246, 0.9);
+
+  50% {
+    box-shadow: 0 0 20px rgba(246, 59, 90, 0.8);
   }
-  
-  @keyframes glow-emergency {
-    0% {
-      box-shadow: 0 0 5px rgba(73, 68, 68, 0.5);
-    }
-    50% {
-      box-shadow: 0 0 20px rgba(22, 5, 8, 0.8);
-    }
-    100% {
-      box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-    }
+
+  100% {
+    box-shadow: 0 0 5px rgba(246, 59, 90, 0.5);
   }
-  
-  [role="alert-emergency"] {
-    margin: 10px;
-    width: 480px;
-    animation: glow-emergency 2s infinite ease-in-out;
-    transition: all 0.3s ease;
+}
+
+[role="alert-due"] {
+  margin: 10px;
+  width: 480px;
+  animation: glow-due 2s infinite ease-in-out;
+  transition: all 0.3s ease;
+}
+
+/* Optional: enhance the glow effect on hover */
+[role="alert-due"]:hover {
+  box-shadow: 0 0 25px rgba(59, 130, 246, 0.9);
+}
+
+@keyframes glow-emergency {
+  0% {
+    box-shadow: 0 0 5px rgba(73, 68, 68, 0.5);
   }
-  
-  /* Optional: enhance the glow effect on hover */
-  [role="alert-emergency"]:hover {
-    box-shadow: 0 0 25px rgba(59, 130, 246, 0.9);
+
+  50% {
+    box-shadow: 0 0 20px rgba(22, 5, 8, 0.8);
   }
+
+  100% {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  }
+}
+
+[role="alert-emergency"] {
+  margin: 10px;
+  width: 480px;
+  animation: glow-emergency 2s infinite ease-in-out;
+  transition: all 0.3s ease;
+}
+
+/* Optional: enhance the glow effect on hover */
+[role="alert-emergency"]:hover {
+  box-shadow: 0 0 25px rgba(59, 130, 246, 0.9);
+}
