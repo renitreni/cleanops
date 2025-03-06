@@ -51,9 +51,10 @@ class ObservationResource extends Resource
                 TextColumn::make('serial')->searchable()->sortable()->copyable(),
                 TextColumn::make('name')->searchable()->sortable(),
                 TextColumn::make('contact_no')->searchable()->sortable(),
+                TextColumn::make('email')->searchable()->sortable(),
                 TextColumn::make('status')->sortable()
                     ->badge()
-                    ->color(fn (string $state): string => match ($state) {
+                    ->color(fn(string $state): string => match ($state) {
                         'pending' => 'warning',
                         'in_progress' => 'info',
                         'resolved' => 'success',
@@ -152,7 +153,7 @@ class ObservationResource extends Resource
                     ->schema([
                         TextEntry::make('status')
                             ->badge()
-                            ->color(fn (string $state): string => match ($state) {
+                            ->color(fn(string $state): string => match ($state) {
                                 'in_progress' => 'info',
                                 'pending' => 'warning',
                                 'resolved' => 'success',
@@ -171,6 +172,11 @@ class ObservationResource extends Resource
                                 'sm' => 1,
                                 'md' => 4,
                             ]),
+                            TextEntry::make('email')
+                                ->columnSpan([
+                                    'sm' => 1,
+                                    'md' => 4,
+                                ]),
                         TextEntry::make('description')
                             ->columnSpan([
                                 'sm' => 1,

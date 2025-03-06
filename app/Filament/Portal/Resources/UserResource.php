@@ -18,9 +18,9 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
-    protected static ?string $navigationLabel = 'Admin Users';
+    protected static ?string $navigationLabel = 'Municipality Accounts';
 
-    protected static ?string $modelLabel = 'Admin User';
+    protected static ?string $modelLabel = 'Municipality Accounts';
 
     public static function canAccess(): bool
     {

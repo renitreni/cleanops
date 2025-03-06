@@ -196,7 +196,7 @@
                     'Geolocation is not supported by your browser.</span>';
 
                 // Enable the button anyway
-                submitButton.disabled = false;
+                submitButton.disabled = true;
                 submitButton.classList.remove('opacity-50', 'cursor-not-allowed');
             }
         });
