@@ -162,6 +162,7 @@
                         // Enable submit button
                         submitButton.disabled = false;
                         submitButton.classList.remove('opacity-50', 'cursor-not-allowed');
+                        former.classList.remove('opacity-0');
                     },
                     function(error) {
                         // Error handling
