@@ -59,7 +59,6 @@ class ObservationResource extends Resource
                         'in_progress' => 'info',
                         'resolved' => 'success',
                     }),
-                TextColumn::make('assigend')->sortable(),
                 // TextColumn::make('photo')
                 //     ->sortable()
                 //     ->label('Photo')
