@@ -18,7 +18,6 @@ class ComplaintReportController extends Controller
     public function store(ComplaintStoreRequest $request)
     {
         $imageUrl = [];
-
         if ($request->has('attachment1')) {
             $path = $request->file('attachment1')->store('evidences');
             $imageUrl[] = Storage::url($path);
@@ -38,7 +37,7 @@ class ComplaintReportController extends Controller
             $path = $request->file('attachment4')->store('evidences');
             $imageUrl[] = Storage::url($path);
         }
-
+        
         $observation = new Observation;
         $observation->description = $request->input('message');
         $observation->name = $request->input('fullname');

@@ -45,7 +45,7 @@ class UsersRelationManager extends RelationManager
             ])
             ->headerActions([
                 Tables\Actions\Action::make('create')
-                    ->label('Create Contractor')
+                    ->label('Create User')
                     ->form([
                         Forms\Components\TextInput::make('name')
                             ->required()
