@@ -38,6 +38,8 @@ class DatabaseSeeder extends Seeder
                     'contractor_id' => Contractor::inRandomOrder()->first()->id,
                     'assigned_by' => User::where('role', 'admin')->inRandomOrder()->first()->id ?? User::first()->id,
                 ]);
+                $observation->status = 'in_progress';
+                $observation->save();
             });
 
             // Create observations

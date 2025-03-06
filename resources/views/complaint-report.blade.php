@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Complaint Report</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body class="bg-gray-100 mt-5">
@@ -199,6 +200,13 @@
                 submitButton.classList.remove('opacity-50', 'cursor-not-allowed');
             }
         });
+        @if ($message = session('succes_message'))
+            Swal.fire(
+                'Complaint has been sent!',
+                '{{ $message }}',
+                'success'
+            )
+        @endif
     </script>
 
 </body>

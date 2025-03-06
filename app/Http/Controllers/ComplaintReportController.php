@@ -37,7 +37,7 @@ class ComplaintReportController extends Controller
             $path = $request->file('attachment4')->store('evidences');
             $imageUrl[] = Storage::url($path);
         }
-        
+
         $observation = new Observation;
         $observation->description = $request->input('message');
         $observation->name = $request->input('fullname');
@@ -55,6 +55,6 @@ class ComplaintReportController extends Controller
             ->bcc(['renier.trenuela@gmail.com'])
             ->send(new ComplaintProcessMail($observation->toArray()));
 
-        return redirect()->route('complaint-report')->with('success', 'Complaint submitted successfully');
+        return redirect()->route('complaint-report')->with('succes_message', 'Complaint submitted successfully');
     }
 }

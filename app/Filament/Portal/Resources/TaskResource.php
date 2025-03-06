@@ -8,6 +8,7 @@ use App\Models\Contractor;
 use App\Models\Observation;
 use App\Models\Task;
 use App\Models\User;
+use Carbon\Carbon;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Select;
@@ -18,6 +19,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\HtmlString;
 
 class TaskResource extends Resource
 {
@@ -71,8 +73,15 @@ class TaskResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('observation.serial')->sortable(),
-                TextColumn::make('contractor.name')->sortable(),
+                TextColumn::make('observation.serial')->searchable()->sortable()
+                    ->description(function (Task $record) {
+                        if (Carbon::parse(Carbon::now()->subDay())->gt($record->updated_at)) {
+                            return new HtmlString('<span class="text-red-800">This is due</span>');
+                        }
+                        return '';
+                    }),
+                TextColumn::make('contractor.name')->searchable()->sortable(),
+                TextColumn::make('assignedBy.name')->searchable()->sortable(),
                 TextColumn::make('status')->sortable()
                     ->sortable()
                     ->badge()

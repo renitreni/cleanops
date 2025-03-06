@@ -73,8 +73,12 @@ class PortalPanelProvider extends PanelProvider
         Filament::registerRenderHook(
             'panels::content.start',
             function () {
-                return view('alerts.due', ['count' => app(AlertDetails::class)->pending()]);
+                return view('alerts.due', ['count' => app(AlertDetails::class)->due()]);
             }
+        );
+        Filament::registerRenderHook(
+            'panels::content.start',
+            fn() => view('alerts.in-progress', ['count' => app(AlertDetails::class)->inProgress()])
         );
         Filament::registerRenderHook(
             'panels::content.start',

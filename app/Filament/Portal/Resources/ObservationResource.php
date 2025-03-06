@@ -45,9 +45,9 @@ class ObservationResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('created_at')->sortable()->dateTime(),
-                TextColumn::make('serial')->sortable()->copyable(),
-                TextColumn::make('name')->sortable(),
-                TextColumn::make('contact_no')->sortable(),
+                TextColumn::make('serial')->searchable()->sortable()->copyable(),
+                TextColumn::make('name')->searchable()->sortable(),
+                TextColumn::make('contact_no')->searchable()->sortable(),
                 TextColumn::make('status')->sortable()
                     ->badge()
                     ->color(fn(string $state): string => match ($state) {
@@ -55,6 +55,7 @@ class ObservationResource extends Resource
                         'in_progress' => 'info',
                         'resolved' => 'success',
                     }),
+                TextColumn::make('assigend')->sortable(),
                 // TextColumn::make('photo')
                 //     ->sortable()
                 //     ->label('Photo')
