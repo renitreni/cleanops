@@ -25,6 +25,7 @@ class ObservationFactory extends Factory
                 'lat' => $this->faker->latitude(),
                 'lng' => $this->faker->longitude(),
             ]),
+            'email' => fake()->safeEmail(),
             'reported_by' => fake()->swiftBicNumber(),
             'status' => 'pending', // 'pending', 'in_progress', 'resolved'
         ];
