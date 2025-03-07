@@ -1,0 +1,1 @@
+<img src="https://ajmalsa.com/wp-content/uploads/2025/02/inma-logo-removebg-preview.png" alt="inma-logo">

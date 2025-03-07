@@ -30,6 +30,8 @@ class PortalPanelProvider extends PanelProvider
             ->id('portal')
             ->path('portal')
             ->login()
+            ->brandLogo(fn () => view('filament.custom-logo'))
+            ->brandLogoHeight('10rem')
             ->defaultThemeMode(ThemeMode::Light)
             ->colors([
                 'primary' => Color::Green,
