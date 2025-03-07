@@ -21,8 +21,8 @@
 <div class="grid grid-cols-1 gap-4 lg:grid-cols-4 lg:gap-8">
     @foreach ($evidences ?? [] as $item)
         @if ($item)
-            <div class="">
                 @if (Str::contains($item, '.mp4'))
+                <div class="">
                     <video
                         style="
                     width: 420px !important;
@@ -32,9 +32,9 @@
                         <source src='{{ $item }}' type=''>
                         Your browser does not support the video tag.
                     </video>
+                </div>
                 @elseif (Str::contains($item, '.docx'))
                 @endif
-            </div>
         @endif
     @endforeach
 </div>
