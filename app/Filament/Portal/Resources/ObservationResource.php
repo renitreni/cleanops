@@ -10,6 +10,7 @@ use App\Mail\ComplaintProcessMail;
 use App\Models\Observation;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Grid;
+use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
@@ -127,11 +128,11 @@ class ObservationResource extends Resource
     {
         return $infolist
             ->schema([
-                Grid::make([
-                    'sm' => 1,
-                    'md' => 12,
-                ])
-                    ->schema([
+                Section::make()->schema([
+                    Grid::make([
+                        'sm' => 1,
+                        'md' => 12,
+                    ])->schema([
                         TextEntry::make('status')
                             ->badge()
                             ->color(fn(string $state): string => match ($state) {
@@ -175,6 +176,7 @@ class ObservationResource extends Resource
                             ->columnSpanFull()
                             ->size(500),
                     ])->columnSpanFull(),
+                ])
             ]);
     }
 }

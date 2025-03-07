@@ -1,4 +1,4 @@
-<div class="grid grid-cols-1 gap-4 lg:grid-cols-4 lg:gap-8">
+<div class="grid grid-cols-1 gap-4 lg:grid-cols-4 lg:gap-8 mb-3">
     @foreach ($evidences ?? [] as $item)
         @if ($item)
             @if (Str::contains($item, '.docx'))
