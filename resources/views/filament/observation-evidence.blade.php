@@ -21,13 +21,19 @@
         @if ($item)
             <div class="">
                 @if (Str::contains($item, '.mp4'))
-                    <video width='420' height='240' controls>
+                    <video style="
+                    width: 420px !important;
+                    height: 350px !important;
+                " controls>
                         <source src='{{ $item }}' type=''>
                         Your browser does not support the video tag.
                     </video>
                 @elseif (Str::contains($item, '.docx'))
                 @else
-                    <img src='{{ $item }}' target='_blank' width='420' height='240' />
+                    <img src='{{ $item }}' target='_blank' style="
+                    width: 420px !important;
+                    height: 350px !important;
+                " />
                 @endif
             </div>
         @endif
