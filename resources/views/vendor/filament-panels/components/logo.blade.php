@@ -16,7 +16,7 @@
 @endphp
 
 @capture($content, $logo, $isDarkMode = false)
-    @if ($logo instanceof \Illuminate\Contracts\Support\Htmlable)
+    @if ($logo instanceof \Illuminate\Contracts\Support\Htmlable && auth()->guest())
         <div
             {{
                 $attributes
@@ -26,7 +26,7 @@
         >
             {{ $logo }}
         </div>
-    @elseif (filled($logo))
+    @elseif (filled($logo) && auth()->guest())
         <img
             alt="{{ __('filament-panels::layout.logo.alt', ['name' => $brandName]) }}"
             src="{{ $logo }}"
