@@ -18,10 +18,10 @@
 </div>
 
 {{-- WATCHABLES --}}
-<div class="grid grid-cols-1 gap-4 lg:grid-cols-4 lg:gap-8">
+<div class="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-8">
     @foreach ($evidences ?? [] as $item)
         @if ($item)
-                @if (Str::contains($item, '.mp4'))
+            @if (Str::contains($item, '.mp4'))
                 <div class="">
                     <video
                         style="
@@ -33,8 +33,8 @@
                         Your browser does not support the video tag.
                     </video>
                 </div>
-                @elseif (Str::contains($item, '.docx'))
-                @endif
+            @elseif (Str::contains($item, '.docx'))
+            @endif
         @endif
     @endforeach
 </div>
@@ -43,17 +43,17 @@
 <div class="grid grid-cols-1 gap-4 lg:grid-cols-4 lg:gap-8">
     @foreach ($evidences ?? [] as $item)
         @if ($item)
-            <div class="">
-                @if (Str::contains($item, '.mp4'))
-                @elseif (Str::contains($item, '.docx'))
-                @else
+            @if (Str::contains($item, '.mp4'))
+            @elseif (Str::contains($item, '.docx'))
+            @else
+                <div class="">
                     <img src='{{ $item }}' target='_blank'
                         style="
                     width: 420px !important;
                     height: 350px !important;
                 " />
-                @endif
-            </div>
+                </div>
+            @endif
         @endif
     @endforeach
 </div>
