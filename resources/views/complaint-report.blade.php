@@ -210,7 +210,7 @@
         @if ($message = session('succes_message'))
             Swal.fire({
                 imageUrl: "https://static.vecteezy.com/system/resources/thumbnails/002/015/941/original/parallax-arabic-and-businessman-shaking-hand-free-video.jpg",
-                imageHeight: 200,
+                imageHeight: 80,
                 title: 'Complaint has been sent! / تم إرسال الشكوى!',
             });
         @endif
