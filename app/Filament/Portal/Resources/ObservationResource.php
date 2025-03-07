@@ -60,26 +60,6 @@ class ObservationResource extends Resource
                         'in_progress' => 'info',
                         'resolved' => 'success',
                     }),
-                // TextColumn::make('photo')
-                //     ->sortable()
-                //     ->label('Photo')
-                //     ->formatStateUsing(function ($state) {
-                //         $jsonString = $state;
-
-                //         // Decode JSON to an associative array
-                //         $data = json_decode($jsonString, true);
-
-                //         $images = '';
-                //         foreach ($data ?? [] as $item) {
-                //             if ($item) {
-                //                 $jsondecode = $item;
-                //                 $images .= "<img src='{$jsondecode}' target='_blank'/>";
-                //             }
-                //         }
-
-                //         return $images;
-                //     })
-                //     ->html(),
             ])
             ->defaultSort('created_at', 'desc')
             ->filters([
@@ -188,26 +168,8 @@ class ObservationResource extends Resource
                                 $jsonString = $state;
 
                                 // Decode JSON to an associative array
-                                $data = json_decode($jsonString, true);
-
-                                $images = '';
-                                foreach ($data ?? [] as $item) {
-                                    if ($item) {
-                                        $jsondecode = $item;
-                                        if (Str::contains($jsondecode, '.mp4')) {
-                                            $images .= "<video width='320' height='240' controls>
-                                                    <source src='{$jsondecode}' type=''>
-                                                    Your browser does not support the video tag.
-                                                    </video>";
-                                        } else if (Str::contains($jsondecode, '.docx')) {
-                                            $images .= "<a href='{$jsondecode}'>Download Link</a>";
-                                        } else {
-                                            $images .= "<img src='{$jsondecode}' target='_blank' width='420'/>";
-                                        }
-                                    }
-                                }
-
-                                return $images;
+                                $evidences = json_decode($jsonString, true);
+                                return view('filament.observation-evidence', compact('evidences'));
                             })
                             ->html()
                             ->columnSpanFull()

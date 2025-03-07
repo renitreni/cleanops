@@ -39,7 +39,7 @@ class TaskResource extends Resource
                 Select::make('observation_id')
                     ->required()
                     ->label('Observation')
-                    ->options(Observation::all()->pluck('serial', 'id'))
+                    ->options(Observation::where('status', 'pending')->pluck('serial', 'id'))
                     ->searchable(),
                 Select::make('contractor_id')
                     ->required()
@@ -86,7 +86,7 @@ class TaskResource extends Resource
                 TextColumn::make('status')->sortable()
                     ->sortable()
                     ->badge()
-                    ->color(fn (string $state): string => match ($state) {
+                    ->color(fn(string $state): string => match ($state) {
                         'assigned' => 'info',
                         'rejected' => 'danger',
                         'completed' => 'success',
