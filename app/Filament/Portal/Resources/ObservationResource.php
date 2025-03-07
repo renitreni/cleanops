@@ -67,12 +67,21 @@ class ObservationResource extends Resource
                 //
             ])
             ->actions([
+                Action::make('resolve')
+                    ->label('Resolve Now')
+                    ->icon('heroicon-o-check')
+                    ->action(function () {})
+                    ->requiresConfirmation()
+                    ->hidden(function ($record) {
+                        return (($record->task->status ?? '') !== 'completed');
+                    }),
                 Action::make('location')
                     ->url(function (Observation $record) {
                         $data = json_decode($record->location, true);
 
                         return "https://www.google.com/maps?q={$data['lat']},{$data['lng']}";
                     })
+                    ->color('warning')
                     ->icon('heroicon-o-map-pin')
                     ->openUrlInNewTab(),
                 ViewAction::make(),

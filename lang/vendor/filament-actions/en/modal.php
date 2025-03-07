@@ -2,7 +2,7 @@
 
 return [
 
-    'confirmation' => 'Are you sure you would like to do this?',
+    'confirmation' => __('Are you sure you would like to do this?'),
 
     'actions' => [
 
