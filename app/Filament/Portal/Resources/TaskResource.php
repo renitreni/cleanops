@@ -102,7 +102,8 @@ class TaskResource extends Resource
                                 $evidences = json_decode($jsonString, true);
                                 return view('filament.observation-evidence', compact('evidences'));
                             }),
-                    ]),
+                    ])
+                    ->columnSpanFull(),
             ]);
     }
 
