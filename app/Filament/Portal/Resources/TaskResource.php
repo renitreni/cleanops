@@ -40,36 +40,60 @@ class TaskResource extends Resource
     {
         return $form
             ->schema([
-                Select::make('observation_id')
-                    ->disabledOn('edit')
-                    ->required()
-                    ->label('Observation')
-                    ->options(Observation::where('status', 'pending')->pluck('serial', 'id'))
-                    ->searchable(),
-                Select::make('contractor_id')
-                    ->required()
-                    ->label('Contractor')
-                    ->options(Contractor::all()->pluck('name', 'id'))
-                    ->searchable(),
-                Select::make('status')
-                    ->label('Task Status')
-                    ->required()
-                    ->options([
-                        'assigned' => 'Assigned',
-                        'completed' => 'Completed',
-                        'rejected' => 'Rejected',
-                    ]),
-                FileUpload::make('completion_photo'),
-                Grid::make()
-                    ->relationship('assignedBy')
-                    ->columnSpan(2)
+                Section::make()
                     ->schema([
-                        Select::make('name')
-                            ->label('Assigned By')
-                            ->options(User::all()->pluck('name', 'id'))
-                            ->default(Auth::user()->name)
-                            ->disabled()
-                            ->searchable(),
+                        Grid::make([
+                            'default' => 1,
+                            'md' => 12,
+                        ])
+                            ->schema([
+                                Select::make('observation_id')
+                                    ->disabledOn('edit')
+                                    ->required()
+                                    ->label('Observation')
+                                    ->options(Observation::where('status', 'pending')->pluck('serial', 'id'))
+                                    ->searchable()
+                                    ->columnSpan([
+                                        'md' => 4,
+                                    ]),
+                                Select::make('contractor_id')
+                                    ->required()
+                                    ->label('Contractor')
+                                    ->options(Contractor::all()->pluck('name', 'id'))
+                                    ->searchable()
+                                    ->columnSpan([
+                                        'md' => 4,
+                                    ]),
+                                Select::make('status')
+                                    ->label('Task Status')
+                                    ->required()
+                                    ->options([
+                                        'assigned' => 'Assigned',
+                                        'completed' => 'Completed',
+                                        'rejected' => 'Rejected',
+                                    ])
+                                    ->columnSpan([
+                                        'md' => 4,
+                                    ]),
+                                FileUpload::make('completion_photo')
+                                    ->columnSpan([
+                                        'md' => 4,
+                                    ]),
+                                Grid::make()
+                                    ->relationship('assignedBy')
+                                    ->schema([
+                                        Select::make('name')
+                                            ->label('Assigned By')
+                                            ->options(User::all()->pluck('name', 'id'))
+                                            ->default(Auth::user()->name)
+                                            ->disabled()
+                                            ->searchable()
+                                            ->columnSpanFull(),
+                                    ])
+                                    ->columnSpan([
+                                        'md' => 4,
+                                    ]),
+                            ]),
                     ]),
                 Section::make('Related Complaint')
                     ->relationship('observation')
@@ -102,8 +126,7 @@ class TaskResource extends Resource
                                 $evidences = json_decode($jsonString, true);
                                 return view('filament.observation-evidence', compact('evidences'));
                             }),
-                    ])
-                    ->columnSpanFull(),
+                    ]),
             ]);
     }
 
