@@ -25,6 +25,7 @@
                         <source src='{{ $item }}' type=''>
                         Your browser does not support the video tag.
                     </video>
+                @elseif (Str::contains($item, '.docx'))
                 @else
                     <img src='{{ $item }}' target='_blank' width='420' height='240' />
                 @endif
