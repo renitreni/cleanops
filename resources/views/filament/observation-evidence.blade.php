@@ -1,3 +1,4 @@
+{{-- DOWNLOADABLES --}}
 <div class="grid grid-cols-1 gap-4 lg:grid-cols-4 lg:gap-8 mb-3">
     @foreach ($evidences ?? [] as $item)
         @if ($item)
@@ -16,21 +17,38 @@
     @endforeach
 </div>
 
+{{-- WATCHABLES --}}
 <div class="grid grid-cols-1 gap-4 lg:grid-cols-4 lg:gap-8">
     @foreach ($evidences ?? [] as $item)
         @if ($item)
             <div class="">
                 @if (Str::contains($item, '.mp4'))
-                    <video style="
+                    <video
+                        style="
                     width: 420px !important;
                     height: 350px !important;
-                " controls>
+                "
+                        controls>
                         <source src='{{ $item }}' type=''>
                         Your browser does not support the video tag.
                     </video>
                 @elseif (Str::contains($item, '.docx'))
+                @endif
+            </div>
+        @endif
+    @endforeach
+</div>
+
+{{-- IMAGES --}}
+<div class="grid grid-cols-1 gap-4 lg:grid-cols-4 lg:gap-8">
+    @foreach ($evidences ?? [] as $item)
+        @if ($item)
+            <div class="">
+                @if (Str::contains($item, '.mp4'))
+                @elseif (Str::contains($item, '.docx'))
                 @else
-                    <img src='{{ $item }}' target='_blank' style="
+                    <img src='{{ $item }}' target='_blank'
+                        style="
                     width: 420px !important;
                     height: 350px !important;
                 " />
