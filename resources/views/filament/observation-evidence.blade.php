@@ -1,8 +1,8 @@
 <div class="grid grid-cols-1 gap-4 lg:grid-cols-4 lg:gap-8">
     @foreach ($evidences ?? [] as $item)
         @if ($item)
-            <div class="">
-                @if (Str::contains($item, '.docx'))
+            @if (Str::contains($item, '.docx'))
+                <div class="">
                     <a class="group relative inline-block text-sm font-medium text-indigo-600 focus:ring-3 focus:outline-hidden"
                         href="{{ $item }}">
                         <span
@@ -10,8 +10,8 @@
 
                         <span class="relative block border border-current bg-white px-8 py-3"> Download File </span>
                     </a>
-                @endif
-            </div>
+                </div>
+            @endif
         @endif
     @endforeach
 </div>
