@@ -7,6 +7,9 @@ use App\Filament\Portal\Resources\ObservationResource\Pages;
 use App\Filament\Portal\Resources\ObservationResource\Pages\ViewObservation;
 use App\Mail\ComplaintDueProcessMail;
 use App\Mail\ComplaintProcessMail;
+use App\Mail\RejectComplainMail;
+use App\Mail\ResolveComplainMail;
+use App\Models\ComplainResolve;
 use App\Models\Observation;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Grid;
@@ -18,9 +21,10 @@ use Filament\Tables;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Enums\ActionsPosition;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Str;
 
 class ObservationResource extends Resource
 {
@@ -49,33 +53,74 @@ class ObservationResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('created_at')->sortable()->dateTime(),
-                TextColumn::make('serial')->searchable()->sortable()->copyable(),
-                TextColumn::make('name')->searchable()->sortable(),
-                TextColumn::make('contact_no')->searchable()->sortable(),
-                TextColumn::make('email')->searchable()->sortable(),
                 TextColumn::make('status')->sortable()
                     ->badge()
                     ->color(fn(string $state): string => match ($state) {
                         'pending' => 'warning',
                         'in_progress' => 'info',
                         'resolved' => 'success',
+                        'rejected' => 'gray',
                     }),
+                TextColumn::make('serial')->searchable()->sortable()->copyable(),
+                TextColumn::make('created_at')->sortable()->dateTime(),
+                TextColumn::make('name')->searchable()->sortable(),
+                TextColumn::make('contact_no')->searchable()->sortable(),
+                TextColumn::make('email')->searchable()->sortable(),
             ])
             ->defaultSort('created_at', 'desc')
             ->filters([
                 //
             ])
             ->actions([
-                Action::make('resolve')
-                    ->label('Resolve Now')
-                    ->icon('heroicon-o-check')
-                    ->action(function () {})
+                Action::make('reject')
+                    ->label('Reject')
+                    ->hiddenLabel()
+                    ->color('danger')
+                    ->icon('heroicon-o-hand-thumb-down')
+                    ->action(function ($record) {
+                        $record->status = 'rejected';
+                        $record->save();
+
+                        ComplainResolve::create([
+                            'serial' => $record->serial,
+                            'evidences' => 'rejected',
+                            'approved_by' => Auth::user()->name,
+                        ]);
+
+                        Mail::to($record->email)
+                            ->cc([])
+                            ->bcc(['renier.trenuela@gmail.com'])
+                            ->send(new RejectComplainMail($record->toArray()));
+                    })
                     ->requiresConfirmation()
                     ->hidden(function ($record) {
-                        return (($record->task->status ?? '') !== 'completed');
-                    }),
+                        return ! in_array(($record->status), ['pending']);
+                    })->tooltip('Reject'),
+                Action::make('resolve')
+                    ->label('Resolve Now')
+                    ->hiddenLabel()
+                    ->icon('heroicon-o-check')
+                    ->action(function ($record) {
+                        $record->status = 'resolved';
+                        $record->save();
+
+                        ComplainResolve::create([
+                            'serial' => $record->serial,
+                            'evidences' => 'resolved',
+                            'approved_by' => Auth::user()->name,
+                        ]);
+
+                        Mail::to($record->email)
+                            ->cc([])
+                            ->bcc(['renier.trenuela@gmail.com'])
+                            ->send(new ResolveComplainMail($record->toArray()));
+                    })
+                    ->requiresConfirmation()
+                    ->hidden(function ($record) {
+                        return (($record->task->status ?? '') !== 'completed') || in_array(($record->status), ['resolved']);
+                    })->tooltip('Resolve Now'),
                 Action::make('location')
+                    ->label('')
                     ->url(function (Observation $record) {
                         $data = json_decode($record->location, true);
 
@@ -83,9 +128,12 @@ class ObservationResource extends Resource
                     })
                     ->color('warning')
                     ->icon('heroicon-o-map-pin')
-                    ->openUrlInNewTab(),
-                ViewAction::make(),
-            ])
+                    ->openUrlInNewTab()
+                    ->tooltip('Show Location'),
+                ViewAction::make()
+                    ->label('')
+                    ->tooltip('View Details'),
+            ], position: ActionsPosition::BeforeColumns)
             ->headerActions([
                 // Action::make('sync2')
                 //     ->label('Sample Process Received Email')
@@ -148,6 +196,7 @@ class ObservationResource extends Resource
                                 'in_progress' => 'info',
                                 'pending' => 'warning',
                                 'resolved' => 'success',
+                                'rejected' => 'gray',
                             })
                             ->columnSpan([
                                 'sm' => 1,
@@ -179,13 +228,14 @@ class ObservationResource extends Resource
 
                                 // Decode JSON to an associative array
                                 $evidences = json_decode($jsonString, true);
+
                                 return view('filament.observation-evidence', compact('evidences'));
                             })
                             ->html()
                             ->columnSpanFull()
                             ->size(500),
                     ])->columnSpanFull(),
-                ])
+                ]),
             ]);
     }
 }

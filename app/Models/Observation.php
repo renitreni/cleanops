@@ -30,7 +30,11 @@ class Observation extends Model
     protected static function booting(): void
     {
         static::creating(function ($observation) {
-            $observation->serial = now()->format('YmdHis');
+            if (app()->environment('local')) {
+                $observation->serial = now()->format('YmdHis') + fake()->randomDigit();
+            } else {
+                $observation->serial = now()->format('YmdHis');
+            }
         });
     }
 

@@ -3,12 +3,13 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class ComplaintProcessMail extends Mailable
+class RejectComplainMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -28,7 +29,7 @@ class ComplaintProcessMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Complaint Received',
+            subject: 'Complaint Rejected',
         );
     }
 
@@ -38,7 +39,7 @@ class ComplaintProcessMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'mail.complaint.process',
+            markdown: 'mail.complaint.rejected',
         );
     }
 
