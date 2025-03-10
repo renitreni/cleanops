@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Portal\Widgets\WeeklyComplaintChart;
 use App\Livewire\AdminWidgets;
 use App\Services\AlertDetails;
 use Filament\Enums\ThemeMode;
@@ -43,7 +44,8 @@ class PortalPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Portal/Widgets'), for: 'App\\Filament\\Portal\\Widgets')
             ->widgets([
-                AdminWidgets::class,
+                // AdminWidgets::class,
+                WeeklyComplaintChart::class  
             ])
             ->topNavigation()
             ->middleware([
