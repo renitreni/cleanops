@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "168fc37ff7369e60f2c15a87a358ee00",
+    "content-hash": "369deec1f7c8a226df27385dbbe00272",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -7461,6 +7461,86 @@
                 "source": "https://github.com/webmozarts/assert/tree/1.11.0"
             },
             "time": "2022-06-03T18:03:27+00:00"
+        },
+        {
+            "name": "yieldstudio/laravel-brevo-notifier",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/YieldStudio/laravel-brevo-notifier.git",
+                "reference": "1b60228eb77e241bc8313c1ff0a1932764d5d3e8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/YieldStudio/laravel-brevo-notifier/zipball/1b60228eb77e241bc8313c1ff0a1932764d5d3e8",
+                "reference": "1b60228eb77e241bc8313c1ff0a1932764d5d3e8",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "^9|^10|^11",
+                "illuminate/support": "^9|^10|^11",
+                "php": "^8.1|^8.2"
+            },
+            "require-dev": {
+                "ciareis/bypass": "^1.0",
+                "laravel/pint": "^1.16",
+                "orchestra/testbench": "^7.22|^8.1",
+                "pestphp/pest": "^2.34",
+                "phpunit/phpunit": "^9.5|^10.5"
+            },
+            "type": "plugin",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "YieldStudio\\LaravelBrevoNotifier\\BrevoNotifierServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "YieldStudio\\LaravelBrevoNotifier\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "James Hemery",
+                    "email": "james@yieldstudio.fr",
+                    "homepage": "https://yieldstudio.fr",
+                    "role": "Developer"
+                },
+                {
+                    "name": "David Tang",
+                    "email": "david@yieldstudio.fr",
+                    "homepage": "https://yieldstudio.fr",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Arthur Monney",
+                    "email": "arthur.monney@yieldstudio.fr",
+                    "homepage": "https://yieldstudio.fr",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Easily send Brevo transactional email and sms with Laravel notifier.",
+            "homepage": "https://github.com/YieldStudio/laravel-brevo-notifier",
+            "keywords": [
+                "brevo",
+                "email",
+                "laravel",
+                "notification",
+                "notifier",
+                "sms",
+                "yieldstudio"
+            ],
+            "support": {
+                "issues": "https://github.com/YieldStudio/laravel-brevo-notifier/issues",
+                "source": "https://github.com/YieldStudio/laravel-brevo-notifier/tree/1.0.1"
+            },
+            "time": "2024-07-22T10:35:08+00:00"
         }
     ],
     "packages-dev": [

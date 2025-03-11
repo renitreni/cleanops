@@ -11,6 +11,8 @@ use App\Mail\RejectComplainMail;
 use App\Mail\ResolveComplainMail;
 use App\Models\ComplainResolve;
 use App\Models\Observation;
+use App\Models\User;
+use App\Notifications\ComplaintReceiveNotification;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Grid;
 use Filament\Infolists\Components\Section;
@@ -25,6 +27,7 @@ use Filament\Tables\Enums\ActionsPosition;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 
 class ObservationResource extends Resource
 {
@@ -135,11 +138,11 @@ class ObservationResource extends Resource
                     ->tooltip('View Details'),
             ], position: ActionsPosition::BeforeColumns)
             ->headerActions([
-                // Action::make('sync2')
-                //     ->label('Sample Process Received Email')
-                //     ->action(function () {
-                //         Mail::to('renier.trenuela@gmail.com')->bcc(['ferdzsabado@gmail.com'])->send(new ComplaintProcessMail);
-                //     }),
+                Action::make('sync2')
+                    ->label('Test SMS')
+                    ->action(function () {
+                        Notification::send(User::query()->first(), new ComplaintReceiveNotification());
+                    }),
                 // Action::make('sync3')
                 //     ->label('Sample Due Process Received Email')
                 //     ->action(function () {

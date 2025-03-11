@@ -61,8 +61,8 @@ class WeeklyComplaintChart extends ChartWidget
                 ['label' => 'Total', 'data' => $data['total'], 'borderColor' => 'black'],
                 ['label' => 'Pending', 'data' => $data['pending'], 'borderColor' => 'rgba(229,198,34,1)'],
                 ['label' => 'In Progress', 'data' => $data['in_progress'], 'borderColor' => 'blue'],
-                ['label' => 'Rejected', 'data' => $data['rejected'], 'borderColor' => 'red'],
                 ['label' => 'Resolved', 'data' => $data['resolved'], 'borderColor' => 'green'],
+                ['label' => 'Rejected', 'data' => $data['rejected'], 'borderColor' => 'red'],
             ],
             'labels' => $weeks,
         ];
