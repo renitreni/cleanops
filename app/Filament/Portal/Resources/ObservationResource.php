@@ -138,11 +138,11 @@ class ObservationResource extends Resource
                     ->tooltip('View Details'),
             ], position: ActionsPosition::BeforeColumns)
             ->headerActions([
-                Action::make('sync2')
-                    ->label('Test SMS')
-                    ->action(function () {
-                        Notification::send(User::query()->first(), new ComplaintReceiveNotification());
-                    }),
+                // Action::make('sync2')
+                //     ->label('Test SMS')
+                //     ->action(function () {
+                //         Notification::send(User::query()->first(), new ComplaintReceiveNotification());
+                //     }),
                 // Action::make('sync3')
                 //     ->label('Sample Due Process Received Email')
                 //     ->action(function () {

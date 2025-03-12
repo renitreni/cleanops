@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ComplaintStoreRequest;
 use App\Mail\ComplaintProcessMail;
 use App\Models\Observation;
+use App\Models\User;
+use App\Notifications\ComplaintReceiveNotification;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 
 class ComplaintReportController extends Controller
@@ -54,6 +57,8 @@ class ComplaintReportController extends Controller
         Mail::to($request->input('email'))
             ->bcc(['renier.trenuela@gmail.com'])
             ->send(new ComplaintProcessMail($observation->toArray()));
+
+        Notification::send(User::query()->first(), new ComplaintReceiveNotification($observation->toArray()));
 
         return redirect()->route('complaint-report')->with('succes_message', 'Complaint submitted successfully');
     }

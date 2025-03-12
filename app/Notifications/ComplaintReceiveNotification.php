@@ -13,12 +13,14 @@ class ComplaintReceiveNotification extends Notification
 {
     use Queueable;
 
+    protected $request;
+
     /**
      * Create a new notification instance.
      */
-    public function __construct()
+    public function __construct($request)
     {
-        //
+        $this->request = $request;
     }
 
     /**
@@ -34,9 +36,10 @@ class ComplaintReceiveNotification extends Notification
     public function toBrevoSms($notifiable): BrevoSmsMessage
     {
         return (new BrevoSmsMessage())
-            ->from('YIELD')
-            ->to('+639064243594')
-            ->content('Your order is confirmed.');
+            ->from(config('app.name'))
+            ->to($this->request['contact_no'])
+            ->content("Serial No: {$this->request['serial']}
+                We've received your complaint and notified the system admin for review. We'll update you soon. Thank you for your patience.");
     }
 
     /**
