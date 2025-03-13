@@ -5,9 +5,9 @@ namespace App\Filament\Portal\Widgets;
 use App\Models\Observation;
 use Filament\Widgets\ChartWidget;
 
-class WeeklyComplaintChart extends ChartWidget
+class CalendarMonthlyWidget extends ChartWidget
 {
-    protected static ?string $heading = 'Weekly Complaints';
+    protected static ?string $heading = 'Monthly Complaints';
 
     // protected int | string | array $columnSpan = 'full';
 
@@ -19,10 +19,10 @@ class WeeklyComplaintChart extends ChartWidget
     protected function getData(): array
     {
         // Fetch all observations within the last 3 months grouped by week and status
-        $observations = Observation::selectRaw('YEARWEEK(created_at, 1) as week, status, COUNT(*) as total')
-            ->where('created_at', '>=', now()->subMonths(3))
-            ->groupBy('week', 'status')
-            ->orderBy('week', 'desc')
+        $observations = Observation::selectRaw('DATE_FORMAT(created_at, \'%Y-%m\')  as month, status, COUNT(*) as total')
+            ->where('created_at', '>=', now()->subMonths(12))
+            ->groupBy('month', 'status')
+            ->orderBy('month', 'desc')
             ->get();
 
         // Initialize dataset structure
@@ -37,23 +37,23 @@ class WeeklyComplaintChart extends ChartWidget
 
         // Process the results into a structured array
         foreach ($observations as $observation) {
-            $week = $observation->week;
-            if (! isset($labels[$week])) {
-                $labels[$week] = $week;
-                $data['total'][$week] = 0;
-                $data['pending'][$week] = 0;
-                $data['in_progress'][$week] = 0;
-                $data['rejected'][$week] = 0;
-                $data['resolved'][$week] = 0;
+            $month = $observation->month;
+            if (! isset($labels[$month])) {
+                $labels[$month] = $month;
+                $data['total'][$month] = 0;
+                $data['pending'][$month] = 0;
+                $data['in_progress'][$month] = 0;
+                $data['rejected'][$month] = 0;
+                $data['resolved'][$month] = 0;
             }
-            $data['total'][$week] += $observation->total;
-            $data[$observation->status][$week] = $observation->total;
+            $data['total'][$month] += $observation->total;
+            $data[$observation->status][$month] = $observation->total;
         }
 
         // Ensure data arrays align with labels
-        $weeks = array_values($labels);
+        $months = array_values($labels);
         foreach ($data as $key => &$values) {
-            $values = array_values(array_replace(array_fill_keys($weeks, 0), $values));
+            $values = array_values(array_replace(array_fill_keys($months, 0), $values));
         }
 
         // Return structured dataset
@@ -65,7 +65,7 @@ class WeeklyComplaintChart extends ChartWidget
                 ['label' => 'Resolved', 'data' => $data['resolved'], 'borderColor' => 'green'],
                 ['label' => 'Rejected', 'data' => $data['rejected'], 'borderColor' => 'red'],
             ],
-            'labels' => $weeks,
+            'labels' => $months,
         ];
     }
 

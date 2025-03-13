@@ -3,16 +3,14 @@
 namespace App\Filament\Portal\Resources;
 
 use App\Actions\FetchComplains;
+use App\Exports\ComplaintReport;
 use App\Filament\Portal\Resources\ObservationResource\Pages;
 use App\Filament\Portal\Resources\ObservationResource\Pages\ViewObservation;
 use App\Mail\ComplaintDueProcessMail;
-use App\Mail\ComplaintProcessMail;
 use App\Mail\RejectComplainMail;
 use App\Mail\ResolveComplainMail;
 use App\Models\ComplainResolve;
 use App\Models\Observation;
-use App\Models\User;
-use App\Notifications\ComplaintReceiveNotification;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Grid;
 use Filament\Infolists\Components\Section;
@@ -27,7 +25,6 @@ use Filament\Tables\Enums\ActionsPosition;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Notification;
 
 class ObservationResource extends Resource
 {
@@ -58,7 +55,7 @@ class ObservationResource extends Resource
             ->columns([
                 TextColumn::make('status')->sortable()
                     ->badge()
-                    ->color(fn(string $state): string => match ($state) {
+                    ->color(fn (string $state): string => match ($state) {
                         'pending' => 'warning',
                         'in_progress' => 'info',
                         'resolved' => 'success',
@@ -138,11 +135,11 @@ class ObservationResource extends Resource
                     ->tooltip('View Details'),
             ], position: ActionsPosition::BeforeColumns)
             ->headerActions([
-                // Action::make('sync2')
-                //     ->label('Test SMS')
-                //     ->action(function () {
-                //         Notification::send(User::query()->first(), new ComplaintReceiveNotification());
-                //     }),
+                Action::make('download-report')
+                    ->label('Download Report')
+                    ->action(function () {
+                        return (new ComplaintReport)->download('Complaint Report - '.now().'.xls');
+                    }),
                 // Action::make('sync3')
                 //     ->label('Sample Due Process Received Email')
                 //     ->action(function () {
@@ -195,7 +192,7 @@ class ObservationResource extends Resource
                     ])->schema([
                         TextEntry::make('status')
                             ->badge()
-                            ->color(fn(string $state): string => match ($state) {
+                            ->color(fn (string $state): string => match ($state) {
                                 'in_progress' => 'info',
                                 'pending' => 'warning',
                                 'resolved' => 'success',

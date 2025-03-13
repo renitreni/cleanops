@@ -3,8 +3,6 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use YieldStudio\LaravelBrevoNotifier\BrevoSmsChannel;
 use YieldStudio\LaravelBrevoNotifier\BrevoSmsMessage;
@@ -35,7 +33,7 @@ class ComplaintReceiveNotification extends Notification
 
     public function toBrevoSms($notifiable): BrevoSmsMessage
     {
-        return (new BrevoSmsMessage())
+        return (new BrevoSmsMessage)
             ->from(config('app.name'))
             ->to($this->request['contact_no'])
             ->content("Serial No: {$this->request['serial']}

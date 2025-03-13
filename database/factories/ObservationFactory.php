@@ -28,7 +28,7 @@ class ObservationFactory extends Factory
             'email' => fake()->safeEmail(),
             'reported_by' => fake()->swiftBicNumber(),
             'status' => 'pending', // 'pending', 'in_progress', 'resolved'
-            'created_at' => fake()->dateTimeBetween('-2 months')
+            'created_at' => fake()->dateTimeBetween('-2 months'),
         ];
     }
 }
