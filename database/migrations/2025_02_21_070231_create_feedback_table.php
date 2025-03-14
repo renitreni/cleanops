@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('reviewer_id'); // (user_id)
             $table->integer('rating')->default(0); // (1-5)
             $table->longText('comments');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

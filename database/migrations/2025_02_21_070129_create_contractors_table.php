@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('phone');
             $table->string('email')->unique();
             $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

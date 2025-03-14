@@ -140,17 +140,6 @@ class ObservationResource extends Resource
                     ->action(function () {
                         return (new ComplaintReport)->download('Complaint Report - '.now().'.xls');
                     }),
-                // Action::make('sync3')
-                //     ->label('Sample Due Process Received Email')
-                //     ->action(function () {
-                //         Mail::to('renier.trenuela@gmail.com')->bcc(['ferdzsabado@gmail.com'])->send(new ComplaintDueProcessMail);
-                //     }),
-                // Action::make('sync')
-                //     ->label('Sync Complain')
-                //     ->action(function () {
-                //         FetchComplains::handle();
-                //         redirect()->route('filament.portal.resources.observations.index');
-                //     }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->enum('status', ['assigned', 'completed', 'rejected'])->default('assigned');
             $table->string('completion_photo')->nullable();
             $table->timestamp('completed_at')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
