@@ -7,6 +7,8 @@ use App\Mail\ComplaintProcessMail;
 use App\Models\Observation;
 use App\Models\User;
 use App\Notifications\ComplaintReceiveNotification;
+use Exception;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
@@ -57,8 +59,12 @@ class ComplaintReportController extends Controller
         Mail::to($request->input('email'))
             ->bcc(['renier.trenuela@gmail.com'])
             ->send(new ComplaintProcessMail($observation->toArray()));
-
-        Notification::send(User::query()->first(), new ComplaintReceiveNotification($observation->toArray()));
+            
+        try {
+            Notification::send(User::query()->first(), new ComplaintReceiveNotification($observation->toArray()));
+        } catch (Exception $e) {
+            Log::error('System ' . now()->format('F j, Y') . ' - ' . $e->getMessage());
+        }
 
         return redirect()->route('complaint-report')->with('succes_message', 'Complaint submitted successfully');
     }
