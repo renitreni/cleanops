@@ -34,7 +34,7 @@ class UserResource extends Resource
         return $form
             ->schema([
                 TextInput::make('name'),
-                TextInput::make('email'),
+                TextInput::make('email')->unique(),
                 TextInput::make('password')
                     ->password()
                     ->maxLength(255)

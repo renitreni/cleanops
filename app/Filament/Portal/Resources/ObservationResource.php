@@ -55,7 +55,7 @@ class ObservationResource extends Resource
             ->columns([
                 TextColumn::make('status')->sortable()
                     ->badge()
-                    ->color(fn (string $state): string => match ($state) {
+                    ->color(fn(string $state): string => match ($state) {
                         'pending' => 'warning',
                         'in_progress' => 'info',
                         'resolved' => 'success',
@@ -138,7 +138,37 @@ class ObservationResource extends Resource
                 Action::make('download-report')
                     ->label('Download Report')
                     ->action(function () {
-                        return (new ComplaintReport)->download('Complaint Report - '.now().'.xls');
+                        return (new ComplaintReport)->download('Complaint Report - ' . now() . '.xls');
+                    }),
+                Action::make('sms')
+                    ->label('Test SMS')
+                    ->action(function () { 
+                        // Create an instance of the service
+                        $itexmoService = new \App\Services\ItexmoService(
+                            email: 'renier.trenuela@gmail.com',
+                            password: 'reniertrenuela9',
+                            apiCode: 'APICODEABCD1234'
+                        );
+
+                        // Prepare your content
+                        // +966508614264
+                        // +966508624264
+                        $content = [
+                            // Add your broadcast parameters here
+                            'message' => 'Hello World!',
+                            'recipients' => ['+966508614264', '09064243594']
+                            // Other required parameters
+                        ];
+
+                        // Send the broadcast
+                        try {
+                            $result = $itexmoService->sendBroadcast($content);
+                            // Handle successful response
+                            print_r($result);
+                        } catch (\GuzzleHttp\Exception\GuzzleException $e) {
+                            // Handle error
+                            echo "Error: " . $e->getMessage();
+                        }
                     }),
             ])
             ->bulkActions([
@@ -181,7 +211,7 @@ class ObservationResource extends Resource
                     ])->schema([
                         TextEntry::make('status')
                             ->badge()
-                            ->color(fn (string $state): string => match ($state) {
+                            ->color(fn(string $state): string => match ($state) {
                                 'in_progress' => 'info',
                                 'pending' => 'warning',
                                 'resolved' => 'success',
