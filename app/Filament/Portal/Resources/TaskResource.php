@@ -158,14 +158,16 @@ class TaskResource extends Resource
             ])
             ->actions([
                 Action::make('whatsapp')
-                    ->icon('heroicon-o-envelope')
-                    ->tooltip('Whatsapp Notification')
-                    ->openUrlInNewTab()
                     ->url(function (Task $record) {
-                        $phone = '+966508614264';
-                        $message = urlencode('Hello, how are you?');
+                        $data = json_decode($record->observation->location, true);
+                        $phone = $record->observation->contact_no;
+                        $message = urlencode("https://www.google.com/maps?q={$data['lat']},{$data['lng']}");
+
                         return "https://wa.me/{$phone}?text={$message}";
-                    }),
+                    })
+                    ->icon('heroicon-o-envelope')
+                    ->openUrlInNewTab()
+                    ->tooltip('Whatsapp Notification'),
                 Tables\Actions\EditAction::make(),
             ])
             ->modifyQueryUsing(function (Builder $query) {
