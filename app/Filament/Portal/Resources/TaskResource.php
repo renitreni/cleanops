@@ -158,6 +158,7 @@ class TaskResource extends Resource
             ])
             ->actions([
                 Action::make('whatsapp')
+                    ->label('Send Location')
                     ->url(function (Task $record) {
                         $data = json_decode($record->observation->location, true);
                         $phone = $record->contractor->phone; // '+966508614264'; // $record->observation->contact_no;
@@ -167,7 +168,7 @@ class TaskResource extends Resource
                     })
                     ->icon('heroicon-o-envelope')
                     ->openUrlInNewTab()
-                    ->tooltip('Whatsapp Notification'),
+                    ->tooltip('Send Location in Whatsapp'),
                 Tables\Actions\EditAction::make(),
             ])
             ->modifyQueryUsing(function (Builder $query) {
