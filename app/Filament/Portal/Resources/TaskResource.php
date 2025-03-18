@@ -17,6 +17,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -100,21 +101,21 @@ class TaskResource extends Resource
                         Grid::make()->schema([
                             Placeholder::make('Fullname')
                                 ->label('Fullname')
-                                ->content(fn ($record) => $record->name),
+                                ->content(fn($record) => $record->name),
                             Placeholder::make('email')
                                 ->label('E-mail')
-                                ->content(fn ($record) => $record->email),
+                                ->content(fn($record) => $record->email),
                             Placeholder::make('phone')
                                 ->label('Phone')
-                                ->content(fn ($record) => $record->contact_no),
+                                ->content(fn($record) => $record->contact_no),
                             Placeholder::make('status')
                                 ->label('Status')
-                                ->content(fn ($record) => $record->status),
+                                ->content(fn($record) => $record->status),
 
                         ]),
                         Placeholder::make('description')
                             ->label('Description')
-                            ->content(fn ($record) => $record->description),
+                            ->content(fn($record) => $record->description),
                         Placeholder::make('photo')
                             ->label('Evidences')
                             ->content(function ($record) {
@@ -146,7 +147,7 @@ class TaskResource extends Resource
                 TextColumn::make('status')->sortable()
                     ->sortable()
                     ->badge()
-                    ->color(fn (string $state): string => match ($state) {
+                    ->color(fn(string $state): string => match ($state) {
                         'assigned' => 'info',
                         'rejected' => 'danger',
                         'completed' => 'success',
@@ -156,6 +157,15 @@ class TaskResource extends Resource
                 //
             ])
             ->actions([
+                Action::make('whatsapp')
+                    ->icon('heroicon-o-envelope')
+                    ->tooltip('Whatsapp Notification')
+                    ->openUrlInNewTab()
+                    ->url(function (Observation $record) {
+                        $phone = '+966508614264';
+                        $message = urlencode('Hello, how are you?');
+                        return "https://wa.me/{$phone}?text={$message}";
+                    }),
                 Tables\Actions\EditAction::make(),
             ])
             ->modifyQueryUsing(function (Builder $query) {

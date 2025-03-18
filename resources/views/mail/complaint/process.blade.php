@@ -57,27 +57,26 @@
 
         <!-- Message -->
         <div class="section">
-            Thank you for reaching out. We have received your complaint and have notified the system administrator for
-            further
-            review.
+            Thank you for reporting the issue. Our team will address it immediately to maintain a clean and safe environment. We appreciate your contribution in helping us improve our services.
+            شكرًا لإبلاغك بالمشكلة. سيتولى فريقنا معالجة الأمر فورًا للحفاظ على بيئة نظيفة وآمنة. نقدّر مساهمتك في مساعدتنا على تحسين خدماتنا.            
         </div>
 
         <!-- Next Steps -->
-        <div class="section">
+        {{-- <div class="section">
             We appreciate your patience as we look into this matter, and we will get back to you with an update as soon
             as
             possible. If you have any additional details to share, please feel free to respond to this message.
-        </div>
+        </div> --}}
 
         <!-- Closing -->
-        <div class="section">
+        {{-- <div class="section">
             Thank you for your support and understanding.
-        </div>
+        </div> --}}
 
         <!-- Footer -->
-        <div class="footer">
+        {{-- <div class="footer">
             This is an automated email. Please do not reply directly to this message.
-        </div>
+        </div> --}}
     </div>
 </body>
 

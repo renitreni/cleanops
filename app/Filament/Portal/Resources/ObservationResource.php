@@ -140,36 +140,43 @@ class ObservationResource extends Resource
                     ->action(function () {
                         return (new ComplaintReport)->download('Complaint Report - ' . now() . '.xls');
                     }),
-                Action::make('sms')
-                    ->label('Test SMS')
-                    ->action(function () { 
-                        // Create an instance of the service
-                        $itexmoService = new \App\Services\ItexmoService(
-                            email: 'renier.trenuela@gmail.com',
-                            password: 'reniertrenuela9',
-                            apiCode: 'APICODEABCD1234'
-                        );
+                // Action::make('whatsapp')
+                //     ->label('whatsapp test')
+                //     ->action(function () {
+                //         $phone = '+966508614264';
+                //         $message = urlencode('Hello, how are you?');
+                //         return redirect()->to("https://wa.me/{$phone}?text={$message}");
+                //     }),
+                // Action::make('sms')
+                //     ->label('Test SMS')
+                //     ->action(function () { 
+                //         // Create an instance of the service
+                //         $itexmoService = new \App\Services\ItexmoService(
+                //             email: 'renier.trenuela@gmail.com',
+                //             password: 'reniertrenuela9',
+                //             apiCode: 'APICODEABCD1234'
+                //         );
 
-                        // Prepare your content
-                        // +966508614264
-                        // +966508624264
-                        $content = [
-                            // Add your broadcast parameters here
-                            'message' => 'Hello World!',
-                            'recipients' => ['+966508614264', '09064243594']
-                            // Other required parameters
-                        ];
+                //         // Prepare your content
+                //         // +966508614264
+                //         // +966508624264
+                //         $content = [
+                //             // Add your broadcast parameters here
+                //             'message' => 'Hello World!',
+                //             'recipients' => ['+966508614264', '09064243594']
+                //             // Other required parameters
+                //         ];
 
-                        // Send the broadcast
-                        try {
-                            $result = $itexmoService->sendBroadcast($content);
-                            // Handle successful response
-                            print_r($result);
-                        } catch (\GuzzleHttp\Exception\GuzzleException $e) {
-                            // Handle error
-                            echo "Error: " . $e->getMessage();
-                        }
-                    }),
+                //         // Send the broadcast
+                //         try {
+                //             $result = $itexmoService->sendBroadcast($content);
+                //             // Handle successful response
+                //             print_r($result);
+                //         } catch (\GuzzleHttp\Exception\GuzzleException $e) {
+                //             // Handle error
+                //             echo "Error: " . $e->getMessage();
+                //         }
+                //     }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
