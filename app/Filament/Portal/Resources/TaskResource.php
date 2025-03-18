@@ -160,7 +160,7 @@ class TaskResource extends Resource
                 Action::make('whatsapp')
                     ->url(function (Task $record) {
                         $data = json_decode($record->observation->location, true);
-                        $phone = '+966508614264'; // $record->observation->contact_no;
+                        $phone = $record->observation->contact_no; // '+966508614264'; // $record->observation->contact_no;
                         $message = rawurlencode("https://www.google.com/maps?q={$data['lat']},{$data['lng']}");
 
                         return "https://wa.me/{$phone}?text={$message}";
