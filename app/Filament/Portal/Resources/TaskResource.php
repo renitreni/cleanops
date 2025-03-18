@@ -161,7 +161,7 @@ class TaskResource extends Resource
                     ->icon('heroicon-o-envelope')
                     ->tooltip('Whatsapp Notification')
                     ->openUrlInNewTab()
-                    ->url(function (Observation $record) {
+                    ->url(function (Task $record) {
                         $phone = '+966508614264';
                         $message = urlencode('Hello, how are you?');
                         return "https://wa.me/{$phone}?text={$message}";
