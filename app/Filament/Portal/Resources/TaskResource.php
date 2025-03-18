@@ -161,7 +161,7 @@ class TaskResource extends Resource
                     ->url(function (Task $record) {
                         $data = json_decode($record->observation->location, true);
                         $phone = '+966508614264'; // $record->observation->contact_no;
-                        $message = urlencode("https://www.google.com/maps?q={$data['lat']},{$data['lng']}");
+                        $message = rawurlencode("https://www.google.com/maps?q={$data['lat']},{$data['lng']}");
 
                         return "https://wa.me/{$phone}?text={$message}";
                     })
