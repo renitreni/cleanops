@@ -163,7 +163,7 @@ class TaskResource extends Resource
                         $phone = $record->contractor->phone; // '+966508614264'; // $record->observation->contact_no;
                         $message = rawurlencode("https://www.google.com/maps?q={$data['lat']},{$data['lng']}");
 
-                        return "https://api.whatsapp.com/send?phone={$phone}?text={$message}";
+                        return "https://api.whatsapp.com/send/?phone={$phone}?text={$message}";
                     })
                     ->icon('heroicon-o-envelope')
                     ->openUrlInNewTab()
