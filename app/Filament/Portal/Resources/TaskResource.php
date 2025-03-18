@@ -168,7 +168,10 @@ class TaskResource extends Resource
                     })
                     ->icon('heroicon-o-envelope')
                     ->openUrlInNewTab()
-                    ->tooltip('Send Location in Whatsapp'),
+                    ->tooltip('Send Location in Whatsapp')
+                    ->hidden(function () {
+                        return Auth::user()->role !== 'admin';
+                    }),
                 Tables\Actions\EditAction::make(),
             ])
             ->modifyQueryUsing(function (Builder $query) {
