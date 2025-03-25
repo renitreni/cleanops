@@ -11,6 +11,7 @@
         "laravel/framework": "^11.31",
         "laravel/tinker": "^2.9",
         "maatwebsite/excel": "^3.1",
+        "twilio/sdk": "^8.4",
         "yieldstudio/laravel-brevo-notifier": "^1.0"
     },
     "require-dev": {

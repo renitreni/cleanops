@@ -11,6 +11,7 @@ use App\Mail\RejectComplainMail;
 use App\Mail\ResolveComplainMail;
 use App\Models\ComplainResolve;
 use App\Models\Observation;
+use App\Services\TwilioService;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Grid;
 use Filament\Infolists\Components\Section;
@@ -140,13 +141,12 @@ class ObservationResource extends Resource
                     ->action(function () {
                         return (new ComplaintReport)->download('Complaint Report - ' . now() . '.xls');
                     }),
-                // Action::make('whatsapp')
-                //     ->label('whatsapp test')
-                //     ->action(function () {
-                //         $phone = '+966508614264';
-                //         $message = urlencode('Hello, how are you?');
-                //         return redirect()->to("https://wa.me/{$phone}?text={$message}");
-                //     }),
+                Action::make('sms')
+                    ->label('SMS Test')
+                    ->action(function () {
+                        $twilioService = app(TwilioService::class);
+                        $result = $twilioService->sendSms('+966508624264', 'Thank you for reporting the issue. Our team will address it immediately to maintain a clean and safe environment.');
+                    }),
                 // Action::make('sms')
                 //     ->label('Test SMS')
                 //     ->action(function () { 
