@@ -46,7 +46,7 @@ class ComplaintReportController extends Controller
         $observation->email = $request->input('email');
         $observation->location = json_encode([
             'lat' => $request->input('latitude'),
-            'lang' => $request->input('longitude'),
+            'lng' => $request->input('longitude'),
         ]);
         $observation->status = 'pending';
         $observation->save();
