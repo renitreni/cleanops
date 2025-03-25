@@ -14,10 +14,10 @@ class AdminWidgets extends BaseWidget
             Stat::make('Total Task', Task::count())->chartColor('red'),
             Stat::make('Assigned Task', Task::where('status', 'assigned')->count())
                 ->color('info'),
-            Stat::make('Completed Task', Task::where('status', 'completed')->count())
-                ->color('success'),
             Stat::make('Rejected Task', Task::where('status', 'rejected')->count())
                 ->color('danger'),
+            Stat::make('Completed Task', Task::where('status', 'completed')->count())
+                ->color('success'),
         ];
     }
 }

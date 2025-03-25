@@ -11,14 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('contractors', function (Blueprint $table) {
+        Schema::create('complain_resolves', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('contact_person');
-            $table->string('phone');
-            $table->string('email')->unique();
-            $table->enum('status', ['active', 'inactive'])->default('active');
-            $table->softDeletes();
+            $table->string('serial');
+            $table->string('evidences')->nullable();
+            $table->string('approved_by');
             $table->timestamps();
         });
     }
@@ -28,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('contractors');
+        Schema::dropIfExists('complain_resolves');
     }
 };

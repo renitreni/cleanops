@@ -15,10 +15,9 @@ use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
-use Filament\Infolists\Components\TextEntry;
-use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\Action;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -124,6 +123,7 @@ class TaskResource extends Resource
 
                                 // Decode JSON to an associative array
                                 $evidences = json_decode($jsonString, true);
+
                                 return view('filament.observation-evidence', compact('evidences'));
                             }),
                     ]),
@@ -157,6 +157,21 @@ class TaskResource extends Resource
                 //
             ])
             ->actions([
+                Action::make('whatsapp')
+                    ->label('Send Location')
+                    ->url(function (Task $record) {
+                        $data = json_decode($record->observation->location, true);
+                        $phone = $record->contractor->phone; // '+966508614264'; // $record->observation->contact_no;
+                        $message = rawurlencode("Click here: https://www.google.com/maps?q={$data['lat']},{$data['lng']}");
+
+                        return "https://api.whatsapp.com/send/?phone={$phone}&text={$message}";
+                    })
+                    ->icon('heroicon-o-envelope')
+                    ->openUrlInNewTab()
+                    ->tooltip('Send Location in Whatsapp')
+                    ->hidden(function () {
+                        return Auth::user()->role !== 'admin';
+                    }),
                 Tables\Actions\EditAction::make(),
             ])
             ->modifyQueryUsing(function (Builder $query) {

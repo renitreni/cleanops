@@ -8,7 +8,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class ComplaintProcessMail extends Mailable
+class ResolveComplainMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -28,7 +28,7 @@ class ComplaintProcessMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Complaint Received',
+            subject: 'Your Complaint has been resolved.',
         );
     }
 
@@ -38,7 +38,7 @@ class ComplaintProcessMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'mail.complaint.process',
+            markdown: 'mail.complaint.resolved',
         );
     }
 

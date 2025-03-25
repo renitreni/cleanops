@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('entity_id')->nullable();
             $table->string('role')->default('admin'); //  ['observer', 'contractor', 'admin'];
             $table->rememberToken();
+            $table->softDeletes();
             $table->timestamps();
         });
 

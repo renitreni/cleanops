@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Observation extends Model
 {
     /** @use HasFactory<\Database\Factories\ObservationFactory> */
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'id',
@@ -30,7 +31,11 @@ class Observation extends Model
     protected static function booting(): void
     {
         static::creating(function ($observation) {
-            $observation->serial = now()->format('YmdHis');
+            if (app()->environment('local')) {
+                $observation->serial = now()->format('YmdHis') + fake()->randomDigit();
+            } else {
+                $observation->serial = now()->format('YmdHis');
+            }
         });
     }
 
