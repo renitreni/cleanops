@@ -31,7 +31,6 @@ class ComplaintStoreRequest extends FormRequest
             'attachments4.*' => 'file|mimes:jpeg,png,jpg,pdf,doc,docx|max:2048',
             'lat' => 'required|string|max:255',
             'lang' => 'required|string|max:255',
-            'status' => 'required|in:pending, progress, resolved, rejected',
             'message' => 'required|string',
         ];
     }
