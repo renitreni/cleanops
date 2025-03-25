@@ -11,10 +11,6 @@ use App\Http\Requests\Api\ComplaintStoreRequest;
 
 class ComplaintController extends Controller
 {
-    public function index()
-    {
-        return view('complaint-report');
-    }
 
     public function store(ComplaintStoreRequest $request)
     {
@@ -56,6 +52,7 @@ class ComplaintController extends Controller
             ->bcc(['renier.trenuela@gmail.com'])
             ->send(new ComplaintProcessMail($observation->toArray()));
 
-        return redirect()->route('complaint-report')->with('succes_message', 'Complaint submitted successfully');
+        $data = ['success' => True, 'message' => 'Complain, Successfully Submitted'];
+        return response()->json($data);
     }
 }
