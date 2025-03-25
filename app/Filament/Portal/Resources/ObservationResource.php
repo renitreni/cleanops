@@ -158,7 +158,6 @@ class ObservationResource extends Resource
                 //         );
 
                 //         // Prepare your content
-                //         // +966508614264
                 //         // +966508624264
                 //         $content = [
                 //             // Add your broadcast parameters here
