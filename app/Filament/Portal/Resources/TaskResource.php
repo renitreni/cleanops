@@ -8,6 +8,7 @@ use App\Models\Contractor;
 use App\Models\Observation;
 use App\Models\Task;
 use App\Models\User;
+use App\Services\TwilioService;
 use Carbon\Carbon;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Grid;
@@ -159,12 +160,13 @@ class TaskResource extends Resource
             ->actions([
                 Action::make('whatsapp')
                     ->label('Send Location')
-                    ->url(function (Task $record) {
+                    ->action(function (Task $record) {
                         $data = json_decode($record->observation->location, true);
                         $phone = $record->contractor->phone; // '+966508614264'; // $record->observation->contact_no;
-                        $message = rawurlencode("Click here: https://www.google.com/maps?q={$data['lat']},{$data['lng']}");
+                        $message = "https://www.google.com/maps?q={$data['lat']},{$data['lng']}";
 
-                        return "https://api.whatsapp.com/send/?phone={$phone}&text={$message}";
+                        $twilioService = app(TwilioService::class);
+                        $twilioService->sendComplaintLocationWA($phone, $message);
                     })
                     ->icon('heroicon-o-envelope')
                     ->openUrlInNewTab()

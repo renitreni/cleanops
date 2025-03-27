@@ -75,4 +75,27 @@ class TwilioService
             return false;
         }
     }
+
+    public function sendComplaintLocationWA(string $to, $url)
+    {
+        try {
+            $this->client = new Client($this->sid, $this->token);
+            $message = $this->client->messages->create(
+                "whatsapp:$to",
+                [
+                    'from' => "whatsapp:" . $this->from,
+                    'messagingServiceSid' => "MG2faf53786affe10f383d4860212028ae",
+                    'contentSid' => 'HXfc0074c6f55c3ce42ea774cd6e02f9a0',
+                    'contentVariables' => json_encode([
+                        'map_url' => $url,
+                    ])
+                ]
+            );
+
+            return "Message Sent! SID: " . $message->sid;
+        } catch (\Exception $e) {
+            Log::error('SMS sending failed: ' . $e->getMessage());
+            return false;
+        }
+    }
 }
