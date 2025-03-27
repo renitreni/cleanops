@@ -9,24 +9,67 @@ class TwilioService
 {
     protected $client;
     protected $from;
+    protected $token;
+    protected $sid;
 
     public function __construct()
     {
-        $sid = env('TWILIO_SID');
-        $token = env('TWILIO_TOKEN');
+        $this->sid = env('TWILIO_SID');
+        $this->token = env('TWILIO_TOKEN');
         $this->from = env('TWILIO_FROM');
-
-        $this->client = new Client($sid, $token);
     }
 
-    public function sendSms(string $to, string $message): bool
+    public function sendSms(string $to, string $message)
     {
         try {
-            $this->client->messages->create("whatsapp:$to", [
-                'from' => "whatsapp:".$this->from,
+            $this->client = new Client($this->sid, $this->token);
+            return $this->client->messages->create("whatsapp:$to", [
+                'from' => "whatsapp:" . $this->from,
                 'body' => $message,
             ]);
-            return true;
+        } catch (\Exception $e) {
+            Log::error('SMS sending failed: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function sendTestMessage(string $to, string $message)
+    {
+        try {
+            $this->client = new Client($this->sid, $this->token);
+            $message = $this->client->messages->create(
+                "whatsapp:$to",
+                [
+                    'from' => "whatsapp:" . $this->from,
+                    'messagingServiceSid' => "MG2faf53786affe10f383d4860212028ae",
+                    'contentSid' => 'HX1c6e57fe77b694add04738464f30134c'
+                ]
+            );
+
+            return "Message Sent! SID: " . $message->sid;
+        } catch (\Exception $e) {
+            Log::error('SMS sending failed: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function sendComplaintProcessWA(string $to, array $params)
+    {
+        try {
+            $this->client = new Client($this->sid, $this->token);
+            $message = $this->client->messages->create(
+                "whatsapp:$to",
+                [
+                    'from' => "whatsapp:" . $this->from,
+                    'messagingServiceSid' => "MG2faf53786affe10f383d4860212028ae",
+                    'contentSid' => 'HXa571b781a50c6b454143745c94150262',
+                    'contentVariables' => json_encode([
+                        'serial' => $params['serial'],
+                    ])
+                ]
+            );
+
+            return "Message Sent! SID: " . $message->sid;
         } catch (\Exception $e) {
             Log::error('SMS sending failed: ' . $e->getMessage());
             return false;

@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\Api\ComplaintStoreRequest;
+use App\Services\TwilioService;
 
 class ComplaintController extends Controller
 {
@@ -47,10 +48,14 @@ class ComplaintController extends Controller
         ]);
         $observation->status = 'pending';
         $observation->save();
-
+        $observationArray = $observation->toArray();
+        
         Mail::to($request->input('email'))
             ->bcc(['renier.trenuela@gmail.com'])
-            ->send(new ComplaintProcessMail($observation->toArray()));
+            ->send(new ComplaintProcessMail($observationArray));
+
+        $twilioService = app(TwilioService::class);
+        $twilioService->sendComplaintProcessWA($request->input('phone_number'), $observationArray);
 
         $data = ['success' => True, 'message' => 'Complain, Successfully Submitted'];
         return response()->json($data);

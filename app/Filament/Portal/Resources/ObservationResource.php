@@ -145,7 +145,7 @@ class ObservationResource extends Resource
                     ->label('SMS Test')
                     ->action(function () {
                         $twilioService = app(TwilioService::class);
-                        $result = $twilioService->sendSms('+966508624264', 'Thank you for reporting the issue. Our team will address it immediately to maintain a clean and safe environment.');
+                        $twilioService->sendComplaintProcessWA('+639064243594', ['serial' => 'test']);
                     }),
                 // Action::make('sms')
                 //     ->label('Test SMS')
