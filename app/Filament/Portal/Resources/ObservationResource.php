@@ -141,12 +141,14 @@ class ObservationResource extends Resource
                     ->action(function () {
                         return (new ComplaintReport)->download('Complaint Report - ' . now() . '.xls');
                     }),
-                // Action::make('sms')
-                //     ->label('SMS Test')
-                //     ->action(function () {
-                //         $twilioService = app(TwilioService::class);
-                //         $twilioService->sendComplaintProcessWA('+966508624264', ['serial' => 'test']);
-                //     }),
+                Action::make('sms')
+                    ->label('SMS Test')
+                    ->action(function () {
+                        $twilioService = app(TwilioService::class);
+                        // $twilioService->sendTestMessage('+96656140004');
+                        // $twilioService->sendTestMessage('+966536572801');
+                        $twilioService->sendTestMessage('+966508624264');
+                    }),
                 // Action::make('sms')
                 //     ->label('Test SMS')
                 //     ->action(function () { 

@@ -33,7 +33,7 @@ class TwilioService
         }
     }
 
-    public function sendTestMessage(string $to, string $message)
+    public function sendTestMessage(string $to)
     {
         try {
             $this->client = new Client($this->sid, $this->token);
@@ -42,7 +42,7 @@ class TwilioService
                 [
                     'from' => "whatsapp:" . $this->from,
                     'messagingServiceSid' => "MG2faf53786affe10f383d4860212028ae",
-                    'contentSid' => 'HX1c6e57fe77b694add04738464f30134c'
+                    'contentSid' => 'HX85c3be6ba38e538ac2fa8df80b306547'
                 ]
             );
 
