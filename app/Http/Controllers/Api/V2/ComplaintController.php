@@ -43,8 +43,8 @@ class ComplaintController extends Controller
         $observation->photo = json_encode($imageUrl);
         $observation->email = $request->input('email');
         $observation->location = json_encode([
-            'lat' => $request->input('latitude'),
-            'lng' => $request->input('longitude'),
+            'lat' => $request->input('lat'),
+            'lng' => $request->input('lang'),
         ]);
         $observation->status = 'pending';
         $observation->save();
