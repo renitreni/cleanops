@@ -55,7 +55,7 @@ class ComplaintController extends Controller
             ->send(new ComplaintProcessMail($observationArray));
 
         $twilioService = app(TwilioService::class);
-        $twilioService->sendComplaintProcessWA($request->input('phone_number'), $observationArray);
+        $twilioService->sendComplaintProcessWA(normalizePhoneNumber($request->input('phone_number')), $observationArray);
 
         $data = ['success' => True, 'message' => 'Complain, Successfully Submitted'];
         return response()->json($data);

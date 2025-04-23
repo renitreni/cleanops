@@ -7,6 +7,7 @@ use App\Mail\ComplaintProcessMail;
 use App\Models\Observation;
 use App\Models\User;
 use App\Notifications\ComplaintReceiveNotification;
+use App\Services\TwilioService;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -55,16 +56,14 @@ class ComplaintReportController extends Controller
         ]);
         $observation->status = 'pending';
         $observation->save();
+        $observationArray = $observation->toArray();
 
         Mail::to($request->input('email'))
             ->bcc(['renier.trenuela@gmail.com'])
             ->send(new ComplaintProcessMail($observation->toArray()));
             
-        try {
-            Notification::send(User::query()->first(), new ComplaintReceiveNotification($observation->toArray()));
-        } catch (Exception $e) {
-            Log::error('System ' . now()->format('F j, Y') . ' - ' . $e->getMessage());
-        }
+        $twilioService = app(TwilioService::class);
+        $twilioService->sendComplaintProcessWA(normalizePhoneNumber($request->input('phone_number')), $observationArray);
 
         return redirect()->route('complaint-report')->with('succes_message', 'Complaint submitted successfully');
     }
