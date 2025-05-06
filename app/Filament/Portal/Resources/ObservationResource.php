@@ -12,6 +12,8 @@ use App\Mail\ResolveComplainMail;
 use App\Models\ComplainResolve;
 use App\Models\Observation;
 use App\Services\TwilioService;
+use Filament\Forms\Components\Builder;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Grid;
 use Filament\Infolists\Components\Section;
@@ -23,7 +25,9 @@ use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\ActionsPosition;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
@@ -138,8 +142,10 @@ class ObservationResource extends Resource
             ->headerActions([
                 Action::make('download-report')
                     ->label('Download Report')
-                    ->action(function () {
-                        return (new ComplaintReport)->download('Complaint Report - ' . now() . '.xls');
+                    ->action(function (Request $request) {
+                        $dateRange = json_decode($request->input('components')[0]['snapshot'], true)['data']['tableFilters'][0]['created_at_range'][0];
+
+                        return (new ComplaintReport($dateRange))->download('Complaint Report - ' . now() . '.xls');
                     }),
                 Action::make('sms')
                     ->label('SMS Test')
@@ -179,6 +185,19 @@ class ObservationResource extends Resource
                 //             echo "Error: " . $e->getMessage();
                 //         }
                 //     }),
+            ])
+            ->filters([
+                Filter::make('created_at_range')
+                    ->form([
+                        DatePicker::make('from')->label('From'),
+                        DatePicker::make('until')->label('Until'),
+                    ])
+                    ->query(function ($query, array $data) {
+                        return $query
+                            ->when($data['from'], fn($query, $date) => $query->whereDate('created_at', '>=', $date))
+                            ->when($data['until'], fn($query, $date) => $query->whereDate('created_at', '<=', $date));
+                    })
+                    ->label('Date Range'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

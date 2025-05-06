@@ -16,7 +16,7 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class ComplaintStatusSheet implements FromQuery, WithColumnFormatting, WithColumnWidths, WithHeadings, WithStyles, WithTitle, WithMapping
 {
-    public function __construct(private string $status) {}
+    public function __construct(private string $status, private array $dateRange) {}
 
     public function map($row): array
     {
@@ -83,6 +83,9 @@ class ComplaintStatusSheet implements FromQuery, WithColumnFormatting, WithColum
                 'email',
                 'created_at',
             ])
+            ->when($this->dateRange['from'], function($q) {
+                $q->whereBetween('created_at', [$this->dateRange['from'], $this->dateRange['until']]);
+            })
             ->where('status', $this->status)
             ->orderBy('created_at', 'desc');
     }
