@@ -23,6 +23,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\HtmlString;
 
 class TaskResource extends Resource
@@ -125,6 +126,12 @@ class TaskResource extends Resource
                                 // Decode JSON to an associative array
                                 $evidences = json_decode($jsonString, true);
 
+                                return view('filament.observation-evidence', compact('evidences'));
+                            }),
+                        Placeholder::make('photo')
+                            ->label('Completion Photo')
+                            ->content(function ($record) {
+                                $evidences = [Storage::url($record->task->completion_photo)];
                                 return view('filament.observation-evidence', compact('evidences'));
                             }),
                     ]),
