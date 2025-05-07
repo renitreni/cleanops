@@ -23,7 +23,7 @@ class ComplaintStoreRequest extends FormRequest
     {
         return [
             'fullname' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
+            'email' => 'nullable|email|max:255',
             'phone_number' => 'required|string|max:20',
             'attachments1.*' => 'file|mimes:jpeg,png,jpg,pdf,doc,docx|max:2048',
             'attachments2.*' => 'file|mimes:jpeg,png,jpg,pdf,doc,docx|max:2048',
