@@ -22,11 +22,28 @@ class Observation extends Model
         'location', // (lat, lng)
         'reported_by', // (user_id)
         'status', // (pending, in_progress, resolved, rejected)
+        'pending_at',
+        'in_progress_at',
+        'resolved_at',
+        'rejected_at'
     ];
 
     protected $casts = [
         'location' => 'array',
     ];
+
+    protected static function booted(): void
+    {
+        static::updated(function (Observation $task) {
+            $changeValues = $task->getChanges();
+            if(isset($changeValues['status'])) {
+                $statusField = $changeValues['status'] . '_at';
+                $task->updateQuietly([
+                    $statusField => now()
+                ]);
+            }
+        });
+    }
 
     protected static function booting(): void
     {

@@ -19,7 +19,23 @@ class Task extends Model
         'status', // (assigned, completed, rejected)
         'completion_photo',
         'completed_at',
+        'assigned_at',
+        'completed_at',
+        'rejected_at'
     ];
+
+    protected static function booted(): void
+    {
+        static::updated(function (Task $task) {
+            $changeValues = $task->getChanges();
+            if(isset($changeValues['status'])) {
+                $statusField = $changeValues['status'] . '_at';
+                $task->updateQuietly([
+                    $statusField => now()
+                ]);
+            }
+        });
+    }
 
     public function observation()
     {

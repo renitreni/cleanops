@@ -11,8 +11,9 @@ class CreateTask extends CreateRecord
 {
     protected static string $resource = TaskResource::class;
 
-    protected function mutateFormDataBeforeCreate(array $data): array
+    protected function afterCreate(): array
     {
+        dd($this->record);
         $data['assigned_by'] = Auth::id();
         $observation = Observation::find($data['observation_id']);
         $observation->status = 'in_progress';

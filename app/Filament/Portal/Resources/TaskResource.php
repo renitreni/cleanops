@@ -15,6 +15,7 @@ use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -48,8 +49,14 @@ class TaskResource extends Resource
                             'md' => 12,
                         ])
                             ->schema([
+                                TextInput::make('observation.serial')
+                                    ->hiddenOn('create')
+                                    ->disabled()
+                                    ->columnSpan([
+                                        'md' => 4,
+                                    ]),
                                 Select::make('observation_id')
-                                    ->disabledOn('edit')
+                                    ->hiddenOn('edit')
                                     ->required()
                                     ->label('Observation')
                                     ->options(Observation::where('status', 'pending')->pluck('serial', 'id'))
@@ -149,7 +156,8 @@ class TaskResource extends Resource
                         }
 
                         return '';
-                    }),
+                    })
+                    ->copyable(),
                 TextColumn::make('contractor.name')->searchable()->sortable(),
                 TextColumn::make('assignedBy.name')->searchable()->sortable(),
                 TextColumn::make('status')->sortable()
