@@ -11,14 +11,22 @@ class CreateTask extends CreateRecord
 {
     protected static string $resource = TaskResource::class;
 
+    /**
+     * @param  array<string, mixed>  $data
+     * @return array<string, mixed>
+     */
+    protected function mutateFormDataBeforeCreate(array $data): array
+    {
+        $data['assigned_by'] = Auth::id();
+        return $data;
+    }
+    
     protected function afterCreate(): array
     {
-        dd($this->record);
-        $data['assigned_by'] = Auth::id();
-        $observation = Observation::find($data['observation_id']);
+        $observation = Observation::find($this->data['observation_id']);
         $observation->status = 'in_progress';
         $observation->save();
 
-        return $data;
+        return $this->data;
     }
 }

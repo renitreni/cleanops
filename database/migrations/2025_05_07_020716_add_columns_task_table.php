@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('tasks', function (Blueprint $table) {
-            $table->dateTime('assigned_at')->default(now());
-            $table->dateTime('rejected_at')->nullable();
+            $table->timestamp('assigned_at')->useCurrent();
+            $table->timestamp('rejected_at')->nullable();
         });
     }
 

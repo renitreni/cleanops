@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('observations', function (Blueprint $table) {
-            $table->dateTime('pending_at')->default(now());
-            $table->dateTime('in_progress_at')->nullable();
-            $table->dateTime('resolved_at')->nullable();
-            $table->dateTime('rejected_at')->nullable();
+            $table->timestamp('pending_at')->useCurrent();
+            $table->timestamp('in_progress_at')->nullable();
+            $table->timestamp('resolved_at')->nullable();
+            $table->timestamp('rejected_at')->nullable();
         });
     }
 
