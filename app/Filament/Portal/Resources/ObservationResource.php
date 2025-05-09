@@ -12,6 +12,7 @@ use App\Mail\ResolveComplainMail;
 use App\Models\ComplainResolve;
 use App\Models\Observation;
 use App\Services\TwilioService;
+use App\Tables\Columns\ComplaintDurationColumn;
 use Filament\Forms\Components\Builder;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Form;
@@ -24,6 +25,7 @@ use Filament\Tables;
 use Filament\Tables\Actions\Action;
 use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ViewColumn;
 use Filament\Tables\Enums\ActionsPosition;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
@@ -66,6 +68,7 @@ class ObservationResource extends Resource
                         'resolved' => 'success',
                         'rejected' => 'gray',
                     }),
+                ComplaintDurationColumn::make('duration'),
                 TextColumn::make('serial')->searchable()->sortable()->copyable(),
                 TextColumn::make('created_at')->sortable()->dateTime(),
                 TextColumn::make('name')->searchable()->sortable(),

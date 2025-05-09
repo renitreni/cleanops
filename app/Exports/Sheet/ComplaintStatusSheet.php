@@ -4,6 +4,7 @@ namespace App\Exports\Sheet;
 
 use App\Models\Observation;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;
@@ -27,7 +28,21 @@ class ComplaintStatusSheet implements FromQuery, WithColumnFormatting, WithColum
             $row->contact_no,
             $row->email,
             Carbon::parse($row->created_at)->format('F j, Y'),
+            $this->diffForHumansDuration($row->pending_at,$row->resolved_at),
         ];
+    }
+
+    public function diffForHumansDuration($dateParam1, $dateParam2)
+    {
+        $diff = '-';
+        if ($dateParam2) {
+            $date1 = \Carbon\Carbon::parse($dateParam1);
+            $date2 = \Carbon\Carbon::parse($dateParam2);
+
+            $diff = $date1->diff($date2);
+        }
+
+        return $diff;
     }
 
     public function styles(Worksheet $sheet)
@@ -54,6 +69,7 @@ class ComplaintStatusSheet implements FromQuery, WithColumnFormatting, WithColum
             'D' => 25,
             'E' => 25,
             'F' => 30,
+            'G' => 40,
         ];
     }
 
@@ -66,6 +82,7 @@ class ComplaintStatusSheet implements FromQuery, WithColumnFormatting, WithColum
             'contact_no',
             'email',
             'created_at',
+            'duration (pending -> resolved)',
         ];
     }
 
@@ -82,8 +99,18 @@ class ComplaintStatusSheet implements FromQuery, WithColumnFormatting, WithColum
                 'contact_no',
                 'email',
                 'created_at',
+                'pending_at',
+                'resolved_at',
+                'in_progress_at',
+                // duration is NULL if resolve_at IS NULL, else the diff in seconds
+                DB::raw(<<<'SQL'
+                    CASE
+                      WHEN resolved_at IS NULL THEN NULL
+                      ELSE TIMESTAMPDIFF(SECOND, pending_at, resolved_at)
+                    END as duration
+                SQL)
             ])
-            ->when($this->dateRange['from'], function($q) {
+            ->when($this->dateRange['from'], function ($q) {
                 $q->whereBetween('created_at', [$this->dateRange['from'], $this->dateRange['until']]);
             })
             ->where('status', $this->status)

@@ -14,7 +14,7 @@ class ComplaintReport implements WithMultipleSheets
 
     public function sheets(): array
     {
-        $statuses = ['pending', 'in_progress', 'resolved', 'rejected'];
+        $statuses = ['resolved', 'pending', 'in_progress', 'rejected'];
         $sheets = [];
         foreach ($statuses as $value) {
             $sheets[] = new ComplaintStatusSheet($value, $this->dateRange);
