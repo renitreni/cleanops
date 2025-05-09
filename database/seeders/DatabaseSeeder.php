@@ -22,9 +22,10 @@ class DatabaseSeeder extends Seeder
             'role' => 'admin',
         ]);
 
-        // Create users
-        User::factory()->count(10)->create();
         if (app()->environment('local')) {
+            // Create users
+            User::factory()->count(10)->create();
+            
             // Create contractors
             Contractor::factory()->count(5)->create();
 
