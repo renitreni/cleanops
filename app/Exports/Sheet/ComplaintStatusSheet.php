@@ -5,6 +5,7 @@ namespace App\Exports\Sheet;
 use App\Models\Observation;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithColumnFormatting;
@@ -60,7 +61,7 @@ class ComplaintStatusSheet implements FromQuery, WithColumnFormatting, WithColum
                 return array_map('trim', $decoded);
             }
         } catch (\Exception $e) {
-            \Log::warning("Failed to decode photo JSON: " . $e->getMessage());
+            Log::warning("Failed to decode photo JSON: " . $e->getMessage());
         }
         
         // Fallback: if it's already a string, return as single item array
@@ -161,7 +162,7 @@ class ComplaintStatusSheet implements FromQuery, WithColumnFormatting, WithColum
     {
         try {
             // Log the URL we're trying to download (for debugging)
-            \Log::debug("Attempting to download image: " . $url);
+            Log::debug("Attempting to download image: " . $url);
             
             // Create a temporary file
             $tempPath = tempnam(sys_get_temp_dir(), 'excel_image_');
@@ -183,35 +184,35 @@ class ComplaintStatusSheet implements FromQuery, WithColumnFormatting, WithColum
             curl_close($ch);
             
             if ($curlError) {
-                \Log::warning("cURL error for $url: " . $curlError);
+                Log::warning("cURL error for $url: " . $curlError);
                 return null;
             }
             
             if ($httpCode !== 200) {
-                \Log::warning("HTTP error for $url: HTTP $httpCode");
+                Log::warning("HTTP error for $url: HTTP $httpCode");
                 return null;
             }
             
             if ($imageContent === false || empty($imageContent)) {
-                \Log::warning("Empty response for $url");
+                Log::warning("Empty response for $url");
                 return null;
             }
             
             // Save the content
             if (file_put_contents($tempPathWithExt, $imageContent) === false) {
-                \Log::warning("Failed to save image content for $url");
+                Log::warning("Failed to save image content for $url");
                 return null;
             }
             
             // Verify it's a valid image
             $imageInfo = getimagesize($tempPathWithExt);
             if (!$imageInfo) {
-                \Log::warning("Invalid image format for $url");
+                Log::warning("Invalid image format for $url");
                 unlink($tempPathWithExt);
                 return null;
             }
             
-            \Log::debug("Successfully downloaded image: $url -> $tempPathWithExt");
+            Log::debug("Successfully downloaded image: $url -> $tempPathWithExt");
             
             // Track temp file for cleanup
             $this->tempFiles[] = $tempPathWithExt;
@@ -219,7 +220,7 @@ class ComplaintStatusSheet implements FromQuery, WithColumnFormatting, WithColum
             return $tempPathWithExt;
             
         } catch (\Exception $e) {
-            \Log::error("Exception downloading image $url: " . $e->getMessage());
+            Log::error("Exception downloading image $url: " . $e->getMessage());
             
             // Clean up on error
             if (isset($tempPathWithExt) && file_exists($tempPathWithExt)) {
@@ -290,7 +291,7 @@ class ComplaintStatusSheet implements FromQuery, WithColumnFormatting, WithColum
             'email',
             'created_at',
             'duration (pending -> resolved)',
-            'photo', // New heading for photo column
+            'before', // New heading for photo column
         ];
     }
 
