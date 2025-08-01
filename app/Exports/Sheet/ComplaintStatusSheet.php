@@ -31,7 +31,7 @@ class ComplaintStatusSheet implements FromQuery, WithColumnFormatting, WithColum
         
         // Decode photo JSON and count images
         $photos = $this->getPhotosFromJson($row->photo);
-        $photoText = empty($photos) ? 'No Photo' : count($photos) . ' Photo(s)';
+        $photoText = empty($photos) ? 'No Photo' : implode(',', $photos) . ' Photo(s)';
         
         return [
             $row->serial,
