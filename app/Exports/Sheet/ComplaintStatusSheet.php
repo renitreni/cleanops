@@ -21,6 +21,7 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 class ComplaintStatusSheet implements FromQuery, WithColumnFormatting, WithColumnWidths, WithHeadings, WithStyles, WithTitle, WithMapping, WithDrawings
 {
     private $observations = [];
+    private $tempFiles = []; // Track temporary files for cleanup
     
     public function __construct(private string $status, private array $dateRange) {}
 
@@ -31,7 +32,7 @@ class ComplaintStatusSheet implements FromQuery, WithColumnFormatting, WithColum
         
         // Decode photo JSON and count images
         $photos = $this->getPhotosFromJson($row->photo);
-        $photoText = empty($photos) ? 'No Photo' : implode(',', $photos) . ' Photo(s)';
+        $photoText = empty($photos) ? 'No Photo' : count($photos) . ' Photo(s)';
         
         return [
             $row->serial,
@@ -51,12 +52,23 @@ class ComplaintStatusSheet implements FromQuery, WithColumnFormatting, WithColum
             return [];
         }
         
+        // Try to decode as JSON array
         try {
-            $photos = json_decode($photoJson, true);
-            return is_array($photos) ? $photos : [];
+            $decoded = json_decode($photoJson, true);
+            if (is_array($decoded)) {
+                // Clean up each URL/path and return
+                return array_map('trim', $decoded);
+            }
         } catch (\Exception $e) {
-            return [];
+            \Log::warning("Failed to decode photo JSON: " . $e->getMessage());
         }
+        
+        // Fallback: if it's already a string, return as single item array
+        if (is_string($photoJson)) {
+            return [trim($photoJson)];
+        }
+        
+        return [];
     }
 
     public function diffForHumansDuration($dateParam1, $dateParam2)
@@ -121,14 +133,12 @@ class ComplaintStatusSheet implements FromQuery, WithColumnFormatting, WithColum
 
     private function getImagePath($photoPath)
     {
-        // Remove any escape slashes
-        $photoPath = str_replace('\/', '/', $photoPath);
+        // Remove any escape slashes and trim whitespace
+        $photoPath = trim(str_replace('\/', '/', $photoPath));
         
-        // If it's a URL, we need to download it first or skip it
+        // If it's a URL, try to download it temporarily
         if (filter_var($photoPath, FILTER_VALIDATE_URL)) {
-            // For URLs, you might want to download them temporarily
-            // For now, we'll skip URLs and only handle local files
-            return null;
+            return $this->downloadImageTemporarily($photoPath);
         }
         
         // For local storage paths
@@ -147,11 +157,87 @@ class ComplaintStatusSheet implements FromQuery, WithColumnFormatting, WithColum
         return null;
     }
 
+    private function downloadImageTemporarily($url)
+    {
+        try {
+            // Log the URL we're trying to download (for debugging)
+            \Log::debug("Attempting to download image: " . $url);
+            
+            // Create a temporary file
+            $tempPath = tempnam(sys_get_temp_dir(), 'excel_image_');
+            $extension = pathinfo(parse_url($url, PHP_URL_PATH), PATHINFO_EXTENSION);
+            $tempPathWithExt = $tempPath . '.' . ($extension ?: 'jpg');
+            
+            // Use cURL for better error handling and timeout control
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+            curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36');
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // In case of SSL issues
+            
+            $imageContent = curl_exec($ch);
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $curlError = curl_error($ch);
+            curl_close($ch);
+            
+            if ($curlError) {
+                \Log::warning("cURL error for $url: " . $curlError);
+                return null;
+            }
+            
+            if ($httpCode !== 200) {
+                \Log::warning("HTTP error for $url: HTTP $httpCode");
+                return null;
+            }
+            
+            if ($imageContent === false || empty($imageContent)) {
+                \Log::warning("Empty response for $url");
+                return null;
+            }
+            
+            // Save the content
+            if (file_put_contents($tempPathWithExt, $imageContent) === false) {
+                \Log::warning("Failed to save image content for $url");
+                return null;
+            }
+            
+            // Verify it's a valid image
+            $imageInfo = getimagesize($tempPathWithExt);
+            if (!$imageInfo) {
+                \Log::warning("Invalid image format for $url");
+                unlink($tempPathWithExt);
+                return null;
+            }
+            
+            \Log::debug("Successfully downloaded image: $url -> $tempPathWithExt");
+            
+            // Track temp file for cleanup
+            $this->tempFiles[] = $tempPathWithExt;
+            
+            return $tempPathWithExt;
+            
+        } catch (\Exception $e) {
+            \Log::error("Exception downloading image $url: " . $e->getMessage());
+            
+            // Clean up on error
+            if (isset($tempPathWithExt) && file_exists($tempPathWithExt)) {
+                unlink($tempPathWithExt);
+            }
+            if (isset($tempPath) && file_exists($tempPath)) {
+                unlink($tempPath);
+            }
+        }
+        
+        return null;
+    }
+
     private function imageExists($originalPath, $localPath)
     {
         if (filter_var($originalPath, FILTER_VALIDATE_URL)) {
-            // For URLs, you could implement a check here
-            return false; // Skip URLs for now
+            // For URLs, the localPath will be null if download failed
+            return $localPath !== null && file_exists($localPath);
         }
         
         return $localPath && file_exists($localPath);
@@ -243,5 +329,15 @@ class ComplaintStatusSheet implements FromQuery, WithColumnFormatting, WithColum
     public function title(): string
     {
         return $this->status;
+    }
+    
+    public function __destruct()
+    {
+        // Clean up temporary files
+        foreach ($this->tempFiles as $tempFile) {
+            if (file_exists($tempFile)) {
+                unlink($tempFile);
+            }
+        }
     }
 }
