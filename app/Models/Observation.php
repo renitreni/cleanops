@@ -60,4 +60,9 @@ class Observation extends Model
     {
         return $this->hasOne(Task::class);
     }
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
 }

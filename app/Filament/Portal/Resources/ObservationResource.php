@@ -13,8 +13,10 @@ use App\Models\ComplainResolve;
 use App\Models\Observation;
 use App\Services\TwilioService;
 use App\Tables\Columns\ComplaintDurationColumn;
+use Carbon\Carbon;
 use Filament\Forms\Components\Builder;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 use Filament\Infolists\Components\Grid;
 use Filament\Infolists\Components\Section;
@@ -145,10 +147,30 @@ class ObservationResource extends Resource
             ->headerActions([
                 Action::make('download-report')
                     ->label('Download Report')
-                    ->action(function (Request $request) {
-                        $dateRange = json_decode($request->input('components')[0]['snapshot'], true)['data']['tableFilters'][0]['created_at_range'][0];
+                    ->form([
+                        Select::make('range')
+                            ->label('Select Range')
+                            ->options([
+                                'today' => 'Today',
+                                'week' => 'Latest Week',
+                                'month' => 'Latest Month',
+                                'year' => 'Latest Year',
+                            ])
+                            ->required()
+                            ->default('today'),
+                    ])
+                    ->action(function (array $data) {
+                        $now = Carbon::now();
+                        $dateRange = match ($data['range']) {
+                            'today' => ['from' => $now->copy()->startOfDay(), 'until' => $now->copy()->endOfDay()],
+                            'week' => ['from' => $now->copy()->startOfWeek(), 'until' => $now->copy()->endOfWeek()],
+                            'month' => ['from' => $now->copy()->startOfMonth(), 'until' => $now->copy()->endOfMonth()],
+                            'year' => ['from' => $now->copy()->startOfYear(), 'until' => $now->copy()->endOfYear()],
+                        };
 
-                        return (new ComplaintReport($dateRange))->download('Complaint Report - ' . now() . '.xls');
+                        return (new ComplaintReport($dateRange))->download(
+                            'Complaint Report - ' . ucfirst($data['range']) . ' - ' . now()->format('Y-m-d') . '.xls'
+                        );
                     }),
                 Action::make('sms')
                     ->label('SMS Test')

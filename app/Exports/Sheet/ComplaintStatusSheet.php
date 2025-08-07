@@ -30,11 +30,14 @@ class ComplaintStatusSheet implements FromQuery, WithColumnFormatting, WithColum
     {
         // Store the observation for later use in drawings
         $this->observations[] = $row;
-        
         // Decode photo JSON and count images
         $photos = $this->getPhotosFromJson($row->photo);
         $photoText = empty($photos) ? 'No Photo' : count($photos) . ' Photo(s)';
-        
+
+        $completionPhoto = $row->completion_photo ? "[\"{$row->completion_photo}\"]": null;
+        $completionPhoto = $this->getPhotosFromJson($completionPhoto);
+        $completionPhotoText = empty($completionPhoto) ? 'No Photo' : count($completionPhoto) . ' Photo(s)';
+
         return [
             $row->serial,
             $row->name,
@@ -43,7 +46,8 @@ class ComplaintStatusSheet implements FromQuery, WithColumnFormatting, WithColum
             $row->email,
             Carbon::parse($row->created_at)->format('F j, Y'),
             $this->diffForHumansDuration($row->pending_at, $row->resolved_at),
-            $photoText, // Show count of photos
+            $photoText,
+            $completionPhotoText
         ];
     }
 
@@ -91,6 +95,8 @@ class ComplaintStatusSheet implements FromQuery, WithColumnFormatting, WithColum
         
         foreach ($this->observations as $index => $observation) {
             $photos = $this->getPhotosFromJson($observation->photo);
+            $completionPhoto = $observation->completion_photo ? "[\"{$observation->completion_photo}\"]": null;
+            $completionPhoto = $this->getPhotosFromJson($completionPhoto);
             
             if (!empty($photos)) {
                 $columnOffset = 0; // To position multiple images horizontally
@@ -106,12 +112,48 @@ class ComplaintStatusSheet implements FromQuery, WithColumnFormatting, WithColum
                         $drawing->setPath($imagePath);
                         
                         // Set the height and width (adjust as needed)
-                        $drawing->setHeight(60);
-                        $drawing->setWidth(60);
+                        $drawing->setHeight(150);
+                        $drawing->setWidth(150);
                         
                         // Position the image in column H for each row
                         // Row 2 is the first data row (after headers)
                         $drawing->setCoordinates('H' . ($index + 2));
+                        
+                        // Offset multiple images horizontally
+                        $drawing->setOffsetX(5 + ($columnOffset * 65)); // 65px spacing between images
+                        $drawing->setOffsetY(5);
+                        
+                        $drawings[] = $drawing;
+                        $columnOffset++;
+                        
+                        // Limit to 3 images per row to avoid overflow
+                        if ($columnOffset >= 3) {
+                            break;
+                        }
+                    }
+                }
+            }
+
+            if (!empty($completionPhoto)) {
+                $columnOffset = 0; // To position multiple images horizontally
+                
+                foreach ($completionPhoto as $photoIndex => $photoPath) {
+                    // Handle both local storage paths and URLs
+                    $imagePath = $this->getImagePath($photoPath);
+                    
+                    if ($imagePath && $this->imageExists($photoPath, $imagePath)) {
+                        $drawing = new Drawing();
+                        $drawing->setName('Photo ' . $observation->serial . '_' . ($photoIndex + 1));
+                        $drawing->setDescription('Complaint Photo ' . ($photoIndex + 1));
+                        $drawing->setPath($imagePath);
+                        
+                        // Set the height and width (adjust as needed)
+                        $drawing->setHeight(150);
+                        $drawing->setWidth(150);
+                        
+                        // Position the image in column H for each row
+                        // Row 2 is the first data row (after headers)
+                        $drawing->setCoordinates('I' . ($index + 2));
                         
                         // Offset multiple images horizontally
                         $drawing->setOffsetX(5 + ($columnOffset * 65)); // 65px spacing between images
@@ -253,7 +295,7 @@ class ComplaintStatusSheet implements FromQuery, WithColumnFormatting, WithColum
         
         // Set row height for data rows to accommodate images
         for ($i = 2; $i <= count($this->observations) + 1; $i++) {
-            $sheet->getRowDimension($i)->setRowHeight(70); // Increased for multiple images
+            $sheet->getRowDimension($i)->setRowHeight(200); // Increased for multiple images
         }
         
         return $styles;
@@ -277,7 +319,8 @@ class ComplaintStatusSheet implements FromQuery, WithColumnFormatting, WithColum
             'E' => 25,
             'F' => 30,
             'G' => 40,
-            'H' => 200, // Wider column for multiple photos
+            'H' => 50, // Wider column for multiple photos
+            'I' => 100, // Wider column for multiple photos
         ];
     }
 
@@ -291,7 +334,8 @@ class ComplaintStatusSheet implements FromQuery, WithColumnFormatting, WithColum
             'email',
             'created_at',
             'duration (pending -> resolved)',
-            'before', // New heading for photo column
+            'before',
+            'after',
         ];
     }
 
@@ -300,31 +344,32 @@ class ComplaintStatusSheet implements FromQuery, WithColumnFormatting, WithColum
      */
     public function query()
     {
-        return Observation::query()
-            ->select([
-                'serial',
-                'name',
-                'description',
-                'contact_no',
-                'email',
-                'created_at',
-                'pending_at',
-                'resolved_at',
-                'in_progress_at',
-                'photo',
+        return Observation::query()->select([
+                'observations.serial',
+                'observations.name',
+                'observations.description',
+                'observations.contact_no',
+                'observations.email',
+                'observations.created_at',
+                'observations.pending_at',
+                'observations.resolved_at',
+                'observations.in_progress_at',
+                'observations.photo',
+                'tasks.completion_photo',
                 // duration is NULL if resolve_at IS NULL, else the diff in seconds
                 DB::raw(<<<'SQL'
                     CASE
-                      WHEN resolved_at IS NULL THEN NULL
-                      ELSE TIMESTAMPDIFF(SECOND, pending_at, resolved_at)
+                      WHEN observations.resolved_at IS NULL THEN NULL
+                      ELSE TIMESTAMPDIFF(SECOND, observations.pending_at, observations.resolved_at)
                     END as duration
                 SQL)
             ])
+            ->leftJoin('tasks', 'tasks.observation_id', '=', 'observations.id')
             ->when($this->dateRange['from'], function ($q) {
-                $q->whereBetween('created_at', [$this->dateRange['from'], $this->dateRange['until']]);
+                $q->whereBetween('observations.created_at', [$this->dateRange['from'], $this->dateRange['until']]);
             })
-            ->where('status', $this->status)
-            ->orderBy('created_at', 'desc');
+            ->where('observations.status', $this->status)
+            ->orderBy('observations.created_at', 'desc');
     }
 
     public function title(): string
